@@ -72,6 +72,22 @@
     align-items: center;
 }
 
-.boldText {
+.italicText {
     font-style: italic;
+}
+
+.boldText {
+    font-weight: bold;
+}
+
+.flex {
+    display: flex
+}
+
+.spaceAround {
+    justify-content: space-around;
+}
+
+.column {
+    flex-direction: column;
 }
