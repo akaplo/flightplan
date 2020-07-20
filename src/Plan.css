@@ -61,6 +61,17 @@
     text-align: left;
 }
 
-.cellHeight {
-    height: 2rem;
+.cell {
+    min-height: 2rem;
+    height: auto;
+}
+
+.centerText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boldText {
+    font-style: italic;
 }
