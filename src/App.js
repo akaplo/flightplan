@@ -1,24 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Fragment, useState } from 'react';
+import TextField from '@material-ui/core/TextField';
 import './App.css';
+import Plan from "./plan";
 
 function App() {
+  const [waypoints, setWaypoints] = useState([]);
+  console.log(waypoints)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h4>Waypoints</h4>
+        <div className={ 'columns' }>
+            <div className={ 'row' }>
+                <span>Description</span>
+                <span>Distance from previous</span>
+                <span>Distance remaining</span>
+            </div>
+                {
+                    [0, 1, 2, 3, 4].map(i =>
+                        <div className={ 'row' }>
+                            <TextField
+                                key={ i }
+                                    onChange={ e => {
+                                        const description = e.target.value;
+                                        waypoints[i] ? waypoints[i].description = description : waypoints[i] = { description };
+                                        setWaypoints(waypoints);
+                                    } }
+                            />
+
+                            <TextField
+                                key={ i }
+                                onChange={ e => {
+                                    const distanceFromPrevious = e.target.value;
+                                    waypoints[i] ? waypoints[i].distanceFromPrevious = distanceFromPrevious : waypoints[i] = { distanceFromPrevious };
+                                    setWaypoints(waypoints);
+                                } }
+                            />
+
+                            <TextField
+                                key={ i }
+                                onChange={ e => {
+                                    const distanceRemaining = e.target.value;
+                                    waypoints[i] ? waypoints[i].distanceRemaining = distanceRemaining : waypoints[i] = { distanceRemaining };
+                                    setWaypoints(waypoints);
+                                } }
+                            />
+                        </div>
+                    )
+                }
+        </div>
+        <Plan waypoints={ waypoints }></Plan>
     </div>
   );
 }

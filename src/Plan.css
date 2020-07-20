@@ -1,0 +1,66 @@
+.thickBorder {
+    border: 2px solid black;
+}
+
+/* Grid: 16 wide by 5 deep*/
+.upperBox {
+    display: grid;
+    grid-template-columns: repeat(17, 1fr);
+}
+
+.colOne {
+    grid-column: 1
+}
+
+.colTwo {
+    grid-column: 2;
+}
+.colThree {
+    grid-column: 3
+}
+
+.colFour {
+    grid-column: 4
+}
+
+.colFive {
+    grid-column: 5
+}
+
+.colSix {
+    grid-column: 6
+}
+
+.colSeven {
+    grid-column: 7
+}
+
+.colEight {
+    grid-column: 8
+}
+
+.colNine {
+    grid-column: 9
+}
+
+.colTen {
+    grid-column: 10
+}
+
+.colEleven {
+    grid-column: 11
+}
+
+.normalBorder {
+    border: 1px solid black;
+}
+
+.topLeftText {
+    font-size: 9px;
+    font-weight: bolder;
+    text-align: left;
+}
+
+.cellHeight {
+    height: 2rem;
+}
