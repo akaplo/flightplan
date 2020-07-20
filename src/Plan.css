@@ -66,6 +66,10 @@
     height: auto;
 }
 
+.thickCell {
+    min-height: 3rem;
+}
+
 .centerText {
     display: flex;
     justify-content: center;

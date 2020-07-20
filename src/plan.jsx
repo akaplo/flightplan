@@ -11,10 +11,10 @@ function Plan({ waypoints, origin, destination, legs, takeoffTimeEst, }) {
         { text: '+w, -e', loc: 6, val: 'magVariance' },
         { text: 'Mag Course', loc: 7, val: 'magCourse' },
         { text: '-L +R', loc: 8, val: 'windCrctAngle' },
-        { text: 'Mag Hdg', loc: 9, val: 'magHdg' },
+        { text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true },
         { text: 'Ground V', loc: 10, val: 'groundSpeed' },
         { hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
-        { hasSum: true, text: 'Time', loc: 12, val: 'time' },
+        { hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true },
         { text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, val: 'fuelStartTakeoff' },
         { text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
         { text: 'Cruise', loc: 15, halfHeight: true, sectionName: 'Fuel', val: 'fuelCruise' },
@@ -38,6 +38,7 @@ function Plan({ waypoints, origin, destination, legs, takeoffTimeEst, }) {
                                 className={ 'thickBorder centerText boldText' }
                                 style={ {
                                     height: header.halfHeight ? '1.5rem'  : '2.5rem',
+                                    fontStyle: header.highlight ? 'italic' : undefined
                                 } }
                             >
                                 { header.text }
@@ -48,8 +49,8 @@ function Plan({ waypoints, origin, destination, legs, takeoffTimeEst, }) {
             {
                 legs.map((leg, idx) =>
                     upperBoxHeaders.map(h =>
-                        <div className={ 'normalBorder centerText cell' } style={ { gridRow: 3   + idx, gridColumn: h.loc, height: 'auto' } }>
-                            { leg[h.val] || '---' }
+                        <div className={ 'normalBorder centerText thickCell' } style={ { gridRow: 3   + idx, gridColumn: h.loc, height: 'auto' } }>
+                            { h.highlight ? <mark>{ leg[h.val] || '---' }</mark> : leg[h.val] || '---' }
                         </div>
                     )
                 )
