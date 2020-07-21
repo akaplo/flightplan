@@ -47,3 +47,7 @@
   flex-direction: row;
   justify-content: space-around;
 }
+
+.gridSeparator {
+  margin-bottom: 3rem;
+}

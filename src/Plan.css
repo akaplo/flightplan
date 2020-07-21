@@ -8,6 +8,11 @@
     grid-template-columns: repeat(17, 1fr);
 }
 
+.lowerBox {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+}
+
 .colOne {
     grid-column: 1
 }
@@ -55,9 +60,38 @@
     border: 1px solid black;
 }
 
+.borderLeft {
+    border-left: 1px solid black;
+}
+
+.borderTop {
+    border-top: 1px solid black;
+}
+
+.borderBottom {
+    border-bottom: 1px solid black;
+}
+
+.thickBorderBottom {
+    border-bottom: 2px solid black;
+}
+
+.thickBorderLeft {
+    border-left: 2px solid black;
+}
+
+.thickBorderRight {
+    border-right: 2px solid black;
+}
+
+.thickBorderTop {
+    border-top: 2px solid black;
+}
+
 .topLeftText {
     font-size: 9px;
     font-weight: bolder;
+    padding-left: 4px;
     text-align: left;
 }
 

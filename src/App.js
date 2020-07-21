@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import './App.css';
-import Plan from "./plan";
+import UpperBox from "./UpperBox";
+import LowerBox from "./LowerBox";
 
 function App() {
   const [waypoints, setWaypoints] = useState([]);
@@ -48,7 +49,8 @@ function App() {
                     )
                 }
         </div>
-        <Plan waypoints={ waypoints }></Plan>
+        <UpperBox className={ 'gridSeparator' } waypoints={ waypoints }></UpperBox>
+        <LowerBox/>
     </div>
   );
 }
