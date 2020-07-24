@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  min-height: 100%;
+}
+
+.planWrapper {
   padding: 5rem;
 }
 

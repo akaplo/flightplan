@@ -4,7 +4,6 @@ import './Plan.css';
 import {ClickAwayListener, TextField} from "@material-ui/core";
 
 const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onTextFieldSubmit, rows }) => {
-    console.log(rows[rowNum][header.val])
     return (
         <Fragment>
             {

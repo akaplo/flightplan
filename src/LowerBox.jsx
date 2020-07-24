@@ -1,16 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
 import { ClickAwayListener, TextField, Button } from "@material-ui/core";
-
+import IconButton from "@material-ui/core/IconButton";
 import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader} from "./UpperBox";
+import DeleteIcon from '@material-ui/icons/Delete';
 import Cell from "./Cell";
 
-function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
+function LowerBox({ checkpoints, className, origin, destination, legs, removeRow, setCheckpoints, showRowEditor, takeoffTimeEst, }) {
     const [focusedBox, setFocusedBox] = useState('');
-    const [checkpoints, setCheckpoints] = useState([
-        { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5im', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
-        { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
-    ]);
+
     console.log('focused ' + focusedBox);
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
@@ -43,25 +41,37 @@ function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
             }
             {
                 checkpoints.map((checkpt, row) =>
-                    lowerBoxHeaders.map((h, col) =>
-                        <Fragment>
-                        <Cell
-                            header={ h }
-                            colNum={ col }
-                            focused={ focusedBox === `${ row }/${ col }` }
-                            headers={ lowerBoxHeaders }
-                            onTextFieldSubmit={ onTextFieldSubmit }
-                            rowNum={ row }
-                            rows={ checkpoints }
-                            setFocusedCell={ setFocusedBox }
-                        />
-                        </Fragment>
-                    )
+                    <Fragment>
+                        {
+                            lowerBoxHeaders.map((h, col) =>
+                                <Fragment>
+                                    <Cell
+                                        header={ h }
+                                        colNum={ col }
+                                        focused={ focusedBox === `${ row }/${ col }` }
+                                        headers={ lowerBoxHeaders }
+                                        onTextFieldSubmit={ onTextFieldSubmit }
+                                        rowNum={ row }
+                                        rows={ checkpoints }
+                                        setFocusedCell={ setFocusedBox }
+                                    />
+                                </Fragment>
+                            )
+                        }
+                        {
+                            showRowEditor &&
+                                <div style={ { gridRow: 3 + row } }>
+                                    <IconButton
+                                        color={ 'secondary' }
+                                        onClick={ () => removeRow(row) }
+                                    >
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </div>
+                        }
+                    </Fragment>
                 )
             }
-            <Button onClick={ () => {
-                setCheckpoints(prevCheckpoints => [...prevCheckpoints, []]);
-            }}>Add Checkpoint</Button>
         </div>
     );
 }

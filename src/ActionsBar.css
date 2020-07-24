@@ -1,0 +1,11 @@
+.bar {
+    width: 100%;
+    background-color: #efefef;
+    height: 3rem;
+    display: flex;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    border-radius: 5px;
+    justify-content: space-evenly;
+}
