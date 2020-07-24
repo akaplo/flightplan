@@ -14,9 +14,9 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, }) {
         { text: 'Ground V', loc: 10, val: 'groundSpeed' },
         { hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
         { hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true },
-        { text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, val: 'fuelStartTakeoff' },
+        { text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
         { text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
-        { text: 'Cruise', loc: 15, halfHeight: true, sectionName: 'Fuel', val: 'fuelCruise' },
+        { text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
         { text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
         { hasSum: true, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal' },
     ];
