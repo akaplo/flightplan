@@ -4,27 +4,12 @@ import './Plan.css';
 import {ClickAwayListener, TextField} from "@material-ui/core";
 
 export const determineValue = (header, rows, rowNum) => {
-    let valToDisplay = header.defaultValue || '';
-
-    if (header.isComputed) {
-        // If we get a rowNum, that means the cell's value is computed from other cells in the current row
-        if (rowNum !== undefined) {
-            // Get the values of the operands we'll use to sum, then sum them
-            // ex: header.val = 'magHdg', sumOf = ['magCourse', 'windCrctAngle']
-            // rows[0]['magCourse]] = 280, rows[1]['windCrctAngle'] = 2
-            // This reduces to a "Fly Heading" of 282.
-            let computeVals = {};
-            header.computeFrom.forEach(otherHeaderVal => computeVals[otherHeaderVal] = rows[rowNum][otherHeaderVal]);
-            valToDisplay = header.computeFunc(computeVals);
-        } else {
-            // if we DON'T get a rowNum, that means the cell's value is computed from the column
-            let computeVals = {};
-            rows.forEach((row, idx) => computeVals[idx] = row[header.val]);
-            valToDisplay = header.computeFunc(computeVals);
-            debugger;
-        }
-    } else if (rowNum !== undefined) {
+    let valToDisplay = '';
+    if (rowNum !== undefined) {
         valToDisplay = rows[rowNum][header.val];
+    }
+    if ((valToDisplay === '' || valToDisplay === undefined) && header.defaultValue) {
+        valToDisplay = header.defaultValue;
     }
     return valToDisplay
 }

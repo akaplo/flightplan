@@ -5,6 +5,25 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {flightTime, sum} from "./computeFuncs";
 
+export const upperBoxHeaders = [
+    { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
+    { defaultValue: '', text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
+    { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
+    { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
+    { defaultValue: '', text: '+w, -e', loc: 6, val: 'magVariance' },
+    { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true },
+    { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
+    { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
+    { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
+    { defaultValue: '', hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
+    { defaultValue: '', hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime },
+    { defaultValue: '---', text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
+    { defaultValue: '---', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
+    { defaultValue: '---', text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
+    { defaultValue: '---', text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
+    { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', computeFunc: sum },
+];
+
 function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
     const onTextFieldSubmit = (e, col, row) => {
@@ -13,24 +32,6 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLeg
         setLegs(newLegs);
     }
     console.log(focusedBox)
-    const upperBoxHeaders = [
-        { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
-        { defaultValue: '', text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
-        { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
-        { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
-        { defaultValue: '', text: '+w, -e', loc: 6, val: 'magVariance' },
-        { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true },
-        { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
-        { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
-        { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
-        { defaultValue: '', hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
-        { defaultValue: '', hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime },
-        { defaultValue: '', text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
-        { defaultValue: '', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
-        { defaultValue: '', text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
-        { defaultValue: '', text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
-        { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', computeFunc: sum },
-    ];
     return (
         <div className={ `upperBox ${ className }` }>
             <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 7 / 8' } }>Cruise Altitude</div>
