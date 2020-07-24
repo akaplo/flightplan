@@ -45,6 +45,7 @@ const App = () => {
             </div>
             <ActionsBar
                 addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
+                addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
                 showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
                 checkpointEditorVisible={ showRowEditor }
             />

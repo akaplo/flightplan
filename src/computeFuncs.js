@@ -10,10 +10,14 @@
  *
  */
 export const sum = (mappings) =>
-    Object.values(mappings).reduce((accumulator, currentValue) => accumulator + Number.parseInt(currentValue, 10));
+    Object.values(mappings).reduce((accumulator, currentValue) => accumulator + Number.parseInt(currentValue, 10) || 0);
 
 /** Requires [ { groundSpeed: <> }, { distance: <> } ]*/
-export const flightTime = (mappings) => Math.round(mappings['distance'] / mappings['groundSpeed'] * 60)
+export const flightTime = (mappings) => {
+    const distance = Number.parseFloat(mappings['distance']) || 0;
+    const groundV = Number.parseFloat(mappings['groundSpeed']) || 0;
+    return Math.round(distance / groundV * 60) || 0;
+}
 
 /**
  * Computes the values of all cells in rows that rely on the values of other columns
@@ -47,6 +51,6 @@ export const computeRowCellValues = (headers, rows) => {
  */
 export const computeTotalCellValue = (header, rows) => {
     let computeVals = {};
-    rows.forEach((row, idx) => computeVals[idx] = row[header.val]);
+    rows.forEach((row, idx) => computeVals[idx] = Number.parseInt(row[header.val], 10) || 0);
     return header.totalComputeFunc(computeVals);
 }
