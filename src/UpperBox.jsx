@@ -1,24 +1,35 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
+import Cell, {determineValue} from "./Cell";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {flightTime, sum} from "./computeFuncs";
 
-function UpperBox({ className, origin, destination, legs, takeoffTimeEst, }) {
+function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
+    const [focusedBox, setFocusedBox] = useState('');
+    const onTextFieldSubmit = (e, col, row) => {
+        const newLegs = legs;
+        newLegs[row][col] = e.target.value;
+        setLegs(newLegs);
+    }
+    console.log(focusedBox)
     const upperBoxHeaders = [
-        { text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
-        { text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
-        { text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
-        { text: 'True Course', loc: 5, val: 'trueCourse' },
-        { text: '+w, -e', loc: 6, val: 'magVariance' },
-        { text: 'Mag Course', loc: 7, val: 'magCourse' },
-        { text: '-L +R', loc: 8, val: 'windCrctAngle' },
-        { text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true },
-        { text: 'Ground V', loc: 10, val: 'groundSpeed' },
-        { hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
-        { hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true },
-        { text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
-        { text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
-        { text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
-        { text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
-        { hasSum: true, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal' },
+        { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
+        { defaultValue: '', text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
+        { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
+        { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
+        { defaultValue: '', text: '+w, -e', loc: 6, val: 'magVariance' },
+        { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true },
+        { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
+        { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
+        { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
+        { defaultValue: '', hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
+        { defaultValue: '', hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime },
+        { defaultValue: '', text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
+        { defaultValue: '', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
+        { defaultValue: '', text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
+        { defaultValue: '', text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
+        { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', computeFunc: sum },
     ];
     return (
         <div className={ `upperBox ${ className }` }>
@@ -39,17 +50,44 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, }) {
                 )
             }
             {
-                legs.map((leg, idx) =>
-                    upperBoxHeaders.map(h =>
-                        <div className={ 'normalBorder centerText thickCell' } style={ { gridRow: 3   + idx, gridColumn: h.loc, height: 'auto' } }>
-                            { h.highlight ? <mark>{ leg[h.val] || '---' }</mark> : leg[h.val] || '---' }
-                        </div>
-                    )
+                legs.map((leg, rowIdx) =>
+                    <Fragment>
+                        {
+                            upperBoxHeaders.map((h, colIdx) =>
+                                <Cell
+                                    colNum={ colIdx }
+                                    focused={ focusedBox === `${ rowIdx }/${ colIdx }` }
+                                    header={ h }
+                                    headers={ upperBoxHeaders }
+                                    onTextFieldSubmit={ onTextFieldSubmit }
+                                    rowNum={ rowIdx }
+                                    rows={ legs }
+                                    setFocusedCell={ setFocusedBox }
+                                />
+                                // <div className={ 'normalBorder centerText thickCell' } style={ { gridRow: 3   + rowIdx, gridColumn: h.loc, height: 'auto' } }>
+                                //     { h.highlight ? <mark>{ leg[h.val] || '---' }</mark> : leg[h.val] || '---' }
+                                // </div>
+                            )
+                        }
+                        {
+                            showRowEditor &&
+                            <div style={ { gridRow: 3 + rowIdx } }>
+                                <IconButton
+                                    color={ 'secondary' }
+                                    onClick={ () => removeRow(rowIdx) }
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </div>
+                        }
+                    </Fragment>
                 )
             }
             {
                 upperBoxHeaders.map(header =>
-                    header.hasSum && <div className={ 'normalBorder centerText cell italicText' } style={ { gridRow: 3 + legs.length, gridColumn: header.loc } }>
+                    header.hasSum &&
+                    <div className={ 'normalBorder centerText cell italicText' } style={ { gridRow: 3 + legs.length, gridColumn: header.loc } }>
+                        { determineValue(header, legs) }
                         { legs.map(l => l[header.val]).reduce((accumulator, currentValue) => accumulator + currentValue) }
                     </div>
                 )
@@ -67,10 +105,6 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, }) {
     );
 }
 UpperBox.defaultProps = {
-    legs: [
-        { name: 'KPYM -> Pt Judith', windHdg: 120, windSpd: 12, trueCourse: 200, magVariance: '14', magCourse: '214', windCrctAngle: '1', magHdg: '215', groundSpeed: 95, distance: 45, time: 35, fuelStartTakeoff: 1.1, fuelClimb: 2, fuelCruise: 7, fuelExtra: 0, fuelTotal: 10.1 },
-        { name: 'Pt Judith -> KBID', windHdg: 130, windSpd: 10, trueCourse: 180, magVariance: '14', magCourse: '194', windCrctAngle: '3', magHdg: '197', groundSpeed: 98, distance: 13, time: 8, fuelStartTakeoff: 0, fuelClimb: 0, fuelCruise: .6, fuelExtra: 4, fuelTotal: 4.6 }
-    ],
     takeoffTimeEst: '12:30pm',
     origin: 'Plymouth, MA (PYM)',
     destination: 'BLock Island, RI (KBID)'

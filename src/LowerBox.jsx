@@ -8,8 +8,6 @@ import Cell from "./Cell";
 
 function LowerBox({ checkpoints, className, origin, destination, legs, removeRow, setCheckpoints, showRowEditor, takeoffTimeEst, }) {
     const [focusedBox, setFocusedBox] = useState('');
-
-    console.log('focused ' + focusedBox);
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
         { text: 'Pt to Pt', loc: 5, val: 'distPtToPt', sectionName: 'Distance', halfHeight: true },

@@ -3,7 +3,35 @@ import PropTypes from 'prop-types';
 import './Plan.css';
 import {ClickAwayListener, TextField} from "@material-ui/core";
 
+export const determineValue = (header, rows, rowNum) => {
+    let valToDisplay = header.defaultValue || '';
+
+    if (header.isComputed) {
+        // If we get a rowNum, that means the cell's value is computed from other cells in the current row
+        if (rowNum !== undefined) {
+            // Get the values of the operands we'll use to sum, then sum them
+            // ex: header.val = 'magHdg', sumOf = ['magCourse', 'windCrctAngle']
+            // rows[0]['magCourse]] = 280, rows[1]['windCrctAngle'] = 2
+            // This reduces to a "Fly Heading" of 282.
+            let computeVals = {};
+            header.computeFrom.forEach(otherHeaderVal => computeVals[otherHeaderVal] = rows[rowNum][otherHeaderVal]);
+            valToDisplay = header.computeFunc(computeVals);
+        } else {
+            // if we DON'T get a rowNum, that means the cell's value is computed from the column
+            let computeVals = {};
+            rows.forEach((row, idx) => computeVals[idx] = row[header.val]);
+            valToDisplay = header.computeFunc(computeVals);
+            debugger;
+        }
+    } else if (rowNum !== undefined) {
+        valToDisplay = rows[rowNum][header.val];
+    }
+    return valToDisplay
+}
+
 const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onTextFieldSubmit, rows }) => {
+    let valToDisplay = determineValue(header, rows, rowNum);
+
     return (
         <Fragment>
             {
@@ -13,7 +41,6 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                         autoFocus
                         color={ 'secondary' }
                         onBlur={ (e) => {
-                            console.log('hi')
                             onTextFieldSubmit(e, header.val, rowNum);
                         } }
                         onKeyDown={ (e) => {
@@ -63,7 +90,7 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                      style={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
                      onClick={ () => !header.readOnly && setFocusedCell(`${ rowNum }/${colNum}`)}
                 >
-                    { rows[rowNum][header.val] || '' }
+                    { valToDisplay }
                 </div>
             }
         </Fragment>
@@ -75,12 +102,21 @@ Cell.propTypes = {
     rowNum: PropTypes.number,
     colNum: PropTypes.number,
     header: PropTypes.shape({
+        /** The reduce function to call to compute this cell's value*/
+        computeFunc: PropTypes.func,
+        defaultValue: PropTypes.string,
+        /** Whether this cell's value is computed from values of other cells in the current row */
+        isComputed: PropTypes.bool,
+        /** Whether to give the cell values for this header a yellow highlight */
+        highlight: PropTypes.bool,
         /** Location in the horizontal axis of the grid the header should appear
          * Example "1 / 2" (start at column 1, end at column 2). See gridColumn property of grids, MDN.
          */
         loc: PropTypes.string,
         /** Whether this cell can be edited by the user */
         readOnly: PropTypes.bool,
+        /** The header.vals of OTHER headers to use when computing this cell's value. Only set if isComputed is true */
+        computeFrom: PropTypes.arrayOf(PropTypes.string),
         /** The header's value, which is used to key into a row to get the data to display */
         val: PropTypes.string
     }),
