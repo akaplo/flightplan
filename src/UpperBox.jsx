@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
-import Cell, {determineValue} from "./Cell";
+import Cell from "./Cell";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
-import {flightTime, sum} from "./computeFuncs";
+import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
 
 export const upperBoxHeaders = [
     { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
@@ -15,8 +15,8 @@ export const upperBoxHeaders = [
     { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
     { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
     { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
-    { defaultValue: '', hasSum: true, text: 'Miles', loc: 11, val: 'distance' },
-    { defaultValue: '', hasSum: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime },
+    { defaultValue: '', hasTotal: true, text: 'Miles', loc: 11, val: 'distance', totalComputeFunc: sum },
+    { defaultValue: '', hasTotal: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime, totalComputeFunc: sum },
     { defaultValue: '---', text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
     { defaultValue: '---', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
     { defaultValue: '---', text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
@@ -86,10 +86,9 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLeg
             }
             {
                 upperBoxHeaders.map(header =>
-                    header.hasSum &&
+                    header.hasTotal && header.totalComputeFunc &&
                     <div className={ 'normalBorder centerText cell italicText' } style={ { gridRow: 3 + legs.length, gridColumn: header.loc } }>
-                        { determineValue(header, legs) }
-                        { legs.map(l => l[header.val]).reduce((accumulator, currentValue) => accumulator + currentValue) }
+                        { computeTotalCellValue(header, legs) }
                     </div>
                 )
             }

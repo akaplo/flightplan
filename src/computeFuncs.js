@@ -42,12 +42,11 @@ export const computeRowCellValues = (headers, rows) => {
 };
 
 /**
- * Computes the values of all "total" cells
+ * Computes the values of a "total" cell
  * (like total flight time, which is the sum of all the cells in its column)
  */
-export const computeTotalCellValues = (headers, rows) => {
-    // if we DON'T get a rowNum, that means the cell's value is computed from the column
+export const computeTotalCellValue = (header, rows) => {
     let computeVals = {};
-    rows.forEach((row, idx) => computeVals[idx] = row[headers[0].val]);
-    const valToDisplay = headers[0].computeFunc(computeVals);
+    rows.forEach((row, idx) => computeVals[idx] = row[header.val]);
+    return header.totalComputeFunc(computeVals);
 }
