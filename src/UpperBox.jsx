@@ -92,7 +92,7 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
                     <span style={{fontSize: '1rem'}}>{ cell1Value }</span>
                 </div>
                 <div className={'flex column'} style={{borderRight: '1px solid black', width: '50%'}}>
-                    <span className={'topLeftText'}>{ cell1Title }</span>
+                    <span className={'topLeftText'}>{ cell2Title }</span>
                     <span style={{fontSize: '1rem'}}>{ cell2Value }</span>
                 </div>
             </div>
@@ -103,7 +103,7 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
 export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }) {
     return (
         <Fragment>
-            <div className={ `thickBorderBottom thickBorderTop  italicText` } style={ { gridRow, gridColumn, height: '1rem', top: 0 } }>
+            <div className={ `thickBorderBottom thickBorderTop ${ sectionName && 'borderLeft' } italicText` } style={ { gridRow, gridColumn, height: '1rem', top: 0 } }>
                 { sectionName }
             </div>
             <div
