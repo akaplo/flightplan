@@ -1,9 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
+import TextField from "@material-ui/core/TextField";
+
 import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader} from "./UpperBox";
 
-function LowerBox({ className, checkpoints, origin, destination, legs, takeoffTimeEst, }) {
-    console.log(checkpoints)
+function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
+    const [focusedBox, setFocusedBox] = useState('');
+    const [checkpoints, setCheckpoints] = useState([
+        { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5im', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
+        { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
+    ]);
+
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
         { text: 'Pt to Pt', loc: 5, val: 'distPtToPt', sectionName: 'Distance', halfHeight: true },
@@ -31,9 +38,33 @@ function LowerBox({ className, checkpoints, origin, destination, legs, takeoffTi
             {
                 checkpoints.map((checkpt, idx) =>
                     lowerBoxHeaders.map(h =>
-                        <div className={ 'normalBorder centerText thickCell' } style={ { gridRow: 3 + idx, gridColumn: h.loc, height: 'auto' } }>
-                            { checkpt[h.val] || '' }
-                        </div>
+                        <Fragment>
+                            {
+                                focusedBox === `${ 3 + idx }/${ h.loc }` &&
+                                    <TextField
+                                        autoFocus
+                                        color={ 'secondary' }
+                                        onBlur={ (e) => {
+                                            const newCheckpoints = checkpoints;
+                                            newCheckpoints[idx][h.val] = e.target.value;
+                                            setCheckpoints(newCheckpoints);
+                                            setFocusedBox('')
+                                        }}
+                                        style={ { gridRow: 3 + idx, gridColumn: h.loc, height: 'auto' } }
+                                        variant={ 'outlined' }
+                                        defaultValue={ checkpoints[idx][h.val] }
+                                    />
+                            }
+                            {
+                                focusedBox !== `${ 3 + idx }/${ h.loc }` &&
+                                <div className={ 'normalBorder centerText thickCell' }
+                                     style={ { gridRow: 3 + idx, gridColumn: h.loc, height: 'auto' } }
+                                     onClick={ () => setFocusedBox(`${3+idx}/${h.loc}`)}
+                                >
+                                    { checkpt[h.val] || '' }
+                                </div>
+                            }
+                        </Fragment>
                     )
                 )
             }
