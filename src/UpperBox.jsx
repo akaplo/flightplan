@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
 import Cell from "./Cell";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from '@material-ui/icons/Delete';
+
 import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
+import RowEditor from "./RowEditor";
 
 export const upperBoxHeaders = [
     { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
@@ -24,7 +24,7 @@ export const upperBoxHeaders = [
     { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', computeFunc: sum },
 ];
 
-function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
+function UpperBox({ className, origin, destination, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
     const onTextFieldSubmit = (e, col, row) => {
         const newLegs = legs;
@@ -72,14 +72,12 @@ function UpperBox({ className, origin, destination, legs, takeoffTimeEst, setLeg
                         }
                         {
                             showRowEditor &&
-                            <div style={ { gridRow: 3 + rowIdx } }>
-                                <IconButton
-                                    color={ 'secondary' }
-                                    onClick={ () => removeRow(rowIdx) }
-                                >
-                                    <DeleteIcon/>
-                                </IconButton>
-                            </div>
+                            <RowEditor
+                                moveRow={ moveRow }
+                                removeRow={ removeRow }
+                                rowIndex={ rowIdx }
+                                rows={ legs }
+                            />
                         }
                     </Fragment>
                 )

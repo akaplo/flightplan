@@ -5,6 +5,7 @@ import UpperBox, {upperBoxHeaders} from "./UpperBox";
 import LowerBox from "./LowerBox";
 import ActionsBar from "./ActionsBar";
 import {computeRowCellValues} from "./computeFuncs";
+import {moveItemInArray} from "./utils";
 
 const App = () => {
     const [checkpoints, setCheckpoints] = useState([
@@ -23,6 +24,9 @@ const App = () => {
                 <UpperBox
                     className={ 'gridSeparator' }
                     legs={ legs }
+                    moveRow={ (oldIndex, newIndex) => {
+                        setLegs(oldLegs => [ ...moveItemInArray(oldLegs, oldIndex, newIndex) ]);
+                    } }
                     setLegs={ (legs) => {
                         setLegs(computeRowCellValues(upperBoxHeaders, legs));
                     } }
@@ -31,6 +35,9 @@ const App = () => {
                 />
                 <LowerBox
                     checkpoints={ checkpoints }
+                    moveRow={ (oldIndex, newIndex) => {
+                        setCheckpoints(oldCheckpoints => [ ...moveItemInArray(oldCheckpoints, oldIndex, newIndex) ]);
+                    } }
                     setCheckpoints={ setCheckpoints }
                     showRowEditor={ showRowEditor }
                     removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }

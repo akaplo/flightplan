@@ -5,8 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader} from "./UpperBox";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Cell from "./Cell";
+import RowEditor from "./RowEditor";
 
-function LowerBox({ checkpoints, className, origin, destination, legs, removeRow, setCheckpoints, showRowEditor, takeoffTimeEst, }) {
+function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, showRowEditor, takeoffTimeEst, }) {
     const [focusedBox, setFocusedBox] = useState('');
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
@@ -58,14 +59,7 @@ function LowerBox({ checkpoints, className, origin, destination, legs, removeRow
                         }
                         {
                             showRowEditor &&
-                                <div style={ { gridRow: 3 + row } }>
-                                    <IconButton
-                                        color={ 'secondary' }
-                                        onClick={ () => removeRow(row) }
-                                    >
-                                        <DeleteIcon/>
-                                    </IconButton>
-                                </div>
+                                <RowEditor moveRow={ moveRow } removeRow={ removeRow } rowIndex={ row } rows={ checkpoints }/>
                         }
                     </Fragment>
                 )
