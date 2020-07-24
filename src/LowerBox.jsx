@@ -3,6 +3,7 @@ import './Plan.css';
 import { ClickAwayListener, TextField, Button } from "@material-ui/core";
 
 import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader} from "./UpperBox";
+import Cell from "./Cell";
 
 function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
     const [focusedBox, setFocusedBox] = useState('');
@@ -44,66 +45,16 @@ function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
                 checkpoints.map((checkpt, row) =>
                     lowerBoxHeaders.map((h, col) =>
                         <Fragment>
-                            {
-                                focusedBox === `${ row }/${ col }` &&
-                                    <ClickAwayListener onClickAway={ () => setFocusedBox('') }>
-                                        <TextField
-                                            autoFocus
-                                            color={ 'secondary' }
-                                            onBlur={ (e) => {
-                                                console.log('hi')
-                                                onTextFieldSubmit(e, h.val, row);
-                                            } }
-                                            onKeyDown={ (e) => {
-                                                if (e.keyCode === 13) {
-                                                    onTextFieldSubmit(e, h.val, row);
-                                                    setFocusedBox('')
-                                                } else if (e.keyCode === 9) {
-                                                    e.preventDefault();
-                                                    onTextFieldSubmit(e, h.val, row);
-                                                    let newCol;
-                                                    let newRow = row;
-                                                    if (e.shiftKey) {
-                                                        newCol = col === 0 ? lowerBoxHeaders.length - 1 : col - 1;
-                                                        // Reached beginning of row
-                                                        if (newCol > col) {
-                                                            // if this is the first row
-                                                            if (row === 0) {
-                                                                newRow = undefined;
-                                                            } else {
-                                                                newRow = row - 1;
-                                                            }
-                                                        }
-                                                    } else {
-                                                        newCol = col === lowerBoxHeaders.length - 1 ? 0 : col + 1;
-                                                        // Reached end of row
-                                                        if (newCol < col) {
-                                                            // if this is the last row
-                                                            if (row === checkpoints.length -1) {
-                                                                newRow = undefined;
-                                                            } else {
-                                                                newRow = row + 1;
-                                                            }
-                                                        }
-                                                    }
-                                                    setFocusedBox(newRow !== undefined ? `${ newRow }/${ newCol }` : '')
-                                                }
-                                            } }
-                                            style={ { gridRow: 3 + row, gridColumn: h.loc, height: 'auto' } }
-                                            variant={ 'outlined' }
-                                            defaultValue={ checkpoints[row][h.val] }
-                                        />
-                                    </ClickAwayListener>
-                            }
-                            {
-                                focusedBox !== `${ row }/${ col }` &&
-                                <div className={ `normalBorder centerText thickCell ${ !h.readOnly && 'cellHover' }` }
-                                     style={ { gridRow: 3 + row, gridColumn: h.loc, height: 'auto' } }
-                                     onClick={ () => !h.readOnly && setFocusedBox(`${ row }/${col}`)}
-                                >
-                                    { checkpt[h.val] || '' }
-                                </div>
-                            }
+                        <Cell
+                            header={ h }
+                            colNum={ col }
+                            focused={ focusedBox === `${ row }/${ col }` }
+                            headers={ lowerBoxHeaders }
+                            onTextFieldSubmit={ onTextFieldSubmit }
+                            rowNum={ row }
+                            rows={ checkpoints }
+                            setFocusedCell={ setFocusedBox }
+                        />
                         </Fragment>
                     )
                 )
