@@ -14,7 +14,7 @@ function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
         { text: 'Pt to Pt', loc: 5, val: 'distPtToPt', sectionName: 'Distance', halfHeight: true },
-        {text: 'Remaining', loc: 6, val: 'distRemaining', halfHeight: true },
+        {text: 'Remaining', loc: 6, val: 'distRemaining', halfHeight: true, readOnly: true },
         {text: 'Estimated', loc: 7, val: 'timeElapsedEst', sectionName: 'Elapsed Time', halfHeight: true },
         {text: 'Actual', loc: 8, val: 'timeElapsedAct', halfHeight: true },
         {text: 'Estimated', loc: 9, val: 'timeArrivedEst', sectionName: 'Arrival Time', halfHeight: true },
@@ -97,9 +97,9 @@ function LowerBox({ className, origin, destination, legs, takeoffTimeEst, }) {
                             }
                             {
                                 focusedBox !== `${ row }/${ col }` &&
-                                <div className={ 'normalBorder centerText thickCell' }
+                                <div className={ `normalBorder centerText thickCell ${ !h.readOnly && 'cellHover' }` }
                                      style={ { gridRow: 3 + row, gridColumn: h.loc, height: 'auto' } }
-                                     onClick={ () => setFocusedBox(`${ row }/${col}`)}
+                                     onClick={ () => !h.readOnly && setFocusedBox(`${ row }/${col}`)}
                                 >
                                     { checkpt[h.val] || '' }
                                 </div>

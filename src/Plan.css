@@ -129,3 +129,8 @@
 .column {
     flex-direction: column;
 }
+
+.cellHover:hover {
+    background-color: #f6f6f6;
+    cursor: pointer;
+}
