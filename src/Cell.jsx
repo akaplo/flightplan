@@ -75,7 +75,8 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                      style={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
                      onClick={ () => !header.readOnly && setFocusedCell(`${ rowNum }/${colNum}`)}
                 >
-                    { valToDisplay }
+                    { header.highlight && <mark>{ valToDisplay }</mark> }
+                    { !header.highlight && valToDisplay }
                 </div>
             }
         </Fragment>

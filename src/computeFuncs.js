@@ -60,6 +60,6 @@ export const computeRowCellValues = (headers, rows) => {
  */
 export const computeTotalCellValue = (header, rows) => {
     let computeVals = {};
-    rows.forEach((row, idx) => computeVals[idx] = Number.parseInt(row[header.val], 10) || 0);
+    rows.forEach((row, idx) => computeVals[idx] = Number.parseFloat(row[header.val]) || 0);
     return header.totalComputeFunc(computeVals);
 }
