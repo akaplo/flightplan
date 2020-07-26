@@ -10,8 +10,14 @@
  *
  */
 export const sum = (mappings) =>
-    Object.values(mappings).reduce((accumulator, currentValue) => accumulator + Number.parseInt(currentValue, 10) || 0);
-
+    Object
+        .values(mappings)
+        .filter(val => val !== undefined && val !== null)
+        .reduce((accumulator, currentValue) => {
+            const curVal = Number.parseFloat(currentValue, 10) || 0;
+            const prevVal = Number.parseFloat(accumulator) || 0;
+            return prevVal + curVal;
+        });
 /** Requires [ { groundSpeed: <> }, { distance: <> } ]*/
 export const flightTime = (mappings) => {
     const distance = Number.parseFloat(mappings['distance']) || 0;
@@ -37,6 +43,9 @@ export const computeRowCellValues = (headers, rows) => {
                 // This reduces to a "Fly Heading" of 282.
                 let computeVals = {};
                 header.computeFrom.forEach(otherHeaderVal => computeVals[otherHeaderVal] = row[otherHeaderVal]);
+                if (header.val === 'fuelTotal') {
+                    console.log(computeVals)
+                }
                 const computed = header.computeFunc(computeVals);
                 newRows[rowIndex][header.val] = computed;
             }

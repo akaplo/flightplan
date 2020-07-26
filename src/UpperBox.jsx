@@ -11,7 +11,7 @@ export const upperBoxHeaders = [
     { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
     { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
     { defaultValue: '', text: '+w, -e', loc: 6, val: 'magVariance' },
-    { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true },
+    { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true, isComputed: true, computeFrom: ['trueCourse', 'magVariance'], computeFunc: sum  },
     { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
     { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
     { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
@@ -21,7 +21,7 @@ export const upperBoxHeaders = [
     { defaultValue: '---', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
     { defaultValue: '---', text: 'Cruise', loc: 15, halfHeight: true, val: 'fuelCruise' },
     { defaultValue: '---', text: 'Extra', loc: 16, halfHeight: true, val: 'fuelExtra' },
-    { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', computeFunc: sum },
+    { defaultValue: '', text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', readOnly: true, isComputed: true, computeFrom: ['fuelStartTakeoff', 'fuelClimb', 'fuelCruise', 'fuelExtra'], computeFunc: sum },
 ];
 
 function UpperBox({ className, origin, destination, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
