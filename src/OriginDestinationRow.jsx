@@ -9,8 +9,8 @@ import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader, upperBoxHeader
 const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, takeoffTime }) => {
     const [focusedBox, setFocusedBox] = useState('');
     const headers = [
-        { defaultValue: '', text: 'Origin', loc: 'span 3 / 4', val: 'origin' },
-        { defaultValue: '', text: 'Destination', loc: 'span 3 / 7', val: 'destination' },
+        { defaultValue: '', text: 'Origin', loc: 'span 6 / 7', val: 'origin' },
+        { defaultValue: '', text: 'Destination', loc: 'span 6 / 13', val: 'destination' },
     ];
     const row = [ {
         [headers[0].val]: origin,
@@ -53,7 +53,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
                 )
             }
 
-            <TwoCellsWithHeader cell1Title={ 'Est' } cell1Value={ takeoffTime } cell2Title={ 'Actual' } gridColumn={ 'span 2 / 11' } gridRow={ 1 } header={ 'Takeoff Time' } />
+            <TwoCellsWithHeader cell1Title={ 'Est' } cell1Value={ takeoffTime } cell2Title={ 'Actual' } gridColumn={ 'span 4 / 21' } gridRow={ 0 } header={ 'Takeoff Time' } />
         </div>
     );
 };

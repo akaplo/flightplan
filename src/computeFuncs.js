@@ -10,14 +10,14 @@
  *
  */
 export const sum = (mappings) =>
-    Object
+    Math.round(Object
         .values(mappings)
         .filter(val => val !== undefined && val !== null)
         .reduce((accumulator, currentValue) => {
             const curVal = Number.parseFloat(currentValue, 10) || 0;
             const prevVal = Number.parseFloat(accumulator) || 0;
             return prevVal + curVal;
-        });
+        }) * 10) / 10;
 /** Requires [ { groundSpeed: <> }, { distance: <> } ]*/
 export const flightTime = (mappings) => {
     const distance = Number.parseFloat(mappings['distance']) || 0;
@@ -37,16 +37,15 @@ export const computeRowCellValues = (headers, rows) => {
         if (header.isComputed) {
             for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                 const row = rows[rowIndex];
-                // Get the values of the operands we'll use to sum, then sum them
-                // ex: header.val = 'magHdg', sumOf = ['magCourse', 'windCrctAngle']
+                // Get the values of the operands we'll use to sum, then compute them
+                // ex: header.val = 'magHdg', computeFrom = ['magCourse', 'windCrctAngle']
                 // rows[0]['magCourse]] = 280, rows[1]['windCrctAngle'] = 2
                 // This reduces to a "Fly Heading" of 282.
                 let computeVals = {};
                 header.computeFrom.forEach(otherHeaderVal => computeVals[otherHeaderVal] = row[otherHeaderVal]);
-                if (header.val === 'fuelTotal') {
-                    console.log(computeVals)
-                }
-                const computed = header.computeFunc(computeVals);
+                console.log(computeVals)
+                const computed = Object.values(computeVals).filter(v => !!v).length > 0 ?
+                    header.computeFunc(computeVals) : '';
                 newRows[rowIndex][header.val] = computed;
             }
         }

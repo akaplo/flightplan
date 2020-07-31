@@ -37,8 +37,13 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
             <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 3 / 11' } }>Cruise KTAS</div>
             <div className={ 'thickBorder cell centerText'} style={ { gridRow: 1, gridColumn: 'span 7 / 18' } }>
                 <span className={ 'topLeftText' }>Heading</span>
-                <span className={ 'boldText'} style={ { display: 'inline-flex', justifyContent: 'space-evenly', width: '100%' } }>
-                    { legs.map((l, idx) => <span>{ `Leg ${idx + 1}: ${ l.magHdg }` }&#176;</span>) }
+                <span style={ { display: 'inline-flex', justifyContent: 'space-evenly', width: '100%' } }>
+                    { legs.map((l, idx) =>
+                        <span>
+                            <span>{ `Leg ${idx + 1}: ` }</span>
+                            <span className={ 'boldText'} >{ l.magHdg }&#176;</span>
+                        </span>
+                    ) }
                 </span>
             </div>
             {
