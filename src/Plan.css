@@ -13,6 +13,12 @@
     grid-template-columns: repeat(14, 1fr);
 }
 
+.originDestinationRow {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    margin-bottom: 2rem;
+}
+
 .colOne {
     grid-column: 1
 }
@@ -93,6 +99,7 @@
     font-weight: bolder;
     padding-left: 4px;
     text-align: left;
+    float: left;
 }
 
 .cell {

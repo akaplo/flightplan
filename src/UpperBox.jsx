@@ -24,19 +24,23 @@ export const upperBoxHeaders = [
     { defaultValue: '', hasTotal: true, totalComputeFunc: sum, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', readOnly: true, isComputed: true, computeFrom: ['fuelStartTakeoff', 'fuelClimb', 'fuelCruise', 'fuelExtra'], computeFunc: sum },
 ];
 
-function UpperBox({ className, origin, destination, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
+function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
     const onTextFieldSubmit = (e, col, row) => {
         const newLegs = legs;
         newLegs[row][col] = e.target.value;
         setLegs(newLegs);
     }
-    console.log(focusedBox)
     return (
         <div className={ `upperBox ${ className }` }>
             <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 7 / 8' } }>Cruise Altitude</div>
             <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 3 / 11' } }>Cruise KTAS</div>
-            <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 7 / 18' } }>Heading</div>
+            <div className={ 'thickBorder cell centerText'} style={ { gridRow: 1, gridColumn: 'span 7 / 18' } }>
+                <span className={ 'topLeftText' }>Heading</span>
+                <span className={ 'boldText'} style={ { display: 'inline-flex', justifyContent: 'space-evenly', width: '100%' } }>
+                    { legs.map((l, idx) => <span>{ `Leg ${idx + 1}: ${ l.magHdg }` }&#176;</span>) }
+                </span>
+            </div>
             {
                 upperBoxHeaders.map((header, idx) =>
                     <div style={ { gridRow: 2, gridColumn: header.loc } }>
@@ -90,15 +94,6 @@ function UpperBox({ className, origin, destination, legs, moveRow, takeoffTimeEs
                     </div>
                 )
             }
-            <div className={ 'normalBorder cell' } style={ { gridRow: 5 + legs.length, gridColumn: 'span 4 / 5', height: '3rem' } }>
-                <div className={ 'boldText' } style={ { borderBottom: '1px solid black', height: '30%', fontSize: '0.8rem' } }>Origin</div>
-                <div className={ 'centerText' } style={ { borderBottom: '1px solid black', height: '70%' } }>{ origin }</div>
-            </div>
-            <div className={ 'normalBorder cell' } style={ { gridRow: 5 + legs.length, gridColumn: 'span 4 / 9', height: '3rem' } }>
-                <div className={ 'boldText' } style={ { borderBottom: '1px solid black', height: '30%', fontSize: '0.8rem' } }>Destination</div>
-                <div className={ 'centerText' } style={ { borderBottom: '1px solid black', height: '70%' } }>{ destination }</div>
-            </div>
-            <TwoCellsWithHeader cell1Title={ 'Est' } cell1Value={ takeoffTimeEst } cell2Title={ 'Actual' } gridColumn={ 'span 2 / 11' } gridRow={ 5 + legs.length } header={ 'Takeoff Time' } />
         </div>
     );
 }
