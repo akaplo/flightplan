@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
 import Cell from "./Cell";
-import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
+import { computeTotalCellValue, distance, flightTime, sum } from "./computeFuncs";
 import RowEditor from "./RowEditor";
 import { TimePicker } from "@material-ui/pickers";
 
@@ -15,7 +15,7 @@ export const upperBoxHeaders = [
     { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
     { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
     { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
-    { defaultValue: '', hasTotal: true, text: 'Miles', loc: 11, val: 'distance', totalComputeFunc: sum },
+    { defaultValue: '', hasTotal: true, text: 'Miles', loc: 11, val: 'distance', isComputed: true, computeFromUnderlying: ['latlng'], computeFunc: distance, totalComputeFunc: sum },
     { defaultValue: '', hasTotal: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime, totalComputeFunc: sum },
     { defaultValue: '---', text: 'Start/Taxi/TkOff', loc: 13, halfHeight: true, sectionName: 'Fuel', val: 'fuelStartTakeoff' },
     { defaultValue: '---', text: 'Climb', loc: 14, halfHeight: true, val: 'fuelClimb' },
