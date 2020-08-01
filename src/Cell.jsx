@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './Plan.css';
 import {ClickAwayListener, TextField} from "@material-ui/core";
+import UnderlyingValueModal from "./UnderlyingValueModal";
 
 export const determineValue = (header, rows, rowNum) => {
     let valToDisplay = '';
@@ -16,11 +17,11 @@ export const determineValue = (header, rows, rowNum) => {
 
 const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onTextFieldSubmit, rows }) => {
     let valToDisplay = determineValue(header, rows, rowNum);
-
+    console.log(valToDisplay)
     return (
         <Fragment>
             {
-                focused &&
+                focused && header.underlyingValue === undefined &&
                 <ClickAwayListener onClickAway={ () => setFocusedCell('') }>
                     <TextField
                         autoFocus
@@ -68,6 +69,22 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                         defaultValue={ rows[rowNum][header.val] }
                     />
                 </ClickAwayListener>
+            }
+            {
+                focused && header.underlyingValue !== undefined &&
+                <UnderlyingValueModal
+                    handleClose={ () => setFocusedCell('') }
+                    mainValue={ rows[rowNum][header.val] }
+                    setMainValue={ (value) => onTextFieldSubmit(
+                        { target: { value }}, header.val, rowNum
+                    ) }
+                    setUnderlyingValue={ (value) => onTextFieldSubmit(
+                        { target: { value } }, header.underlyingValue, rowNum
+                    )
+                    }
+                    title={ header.text }
+                    underlyingValue={ rows[rowNum][header.underlyingValue] }
+                />
             }
             {
                 !focused &&

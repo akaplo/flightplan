@@ -1,13 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
 import Cell from "./Cell";
-import { TextField } from "@material-ui/core";
 import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
 import RowEditor from "./RowEditor";
 import { TimePicker } from "@material-ui/pickers";
 
 export const upperBoxHeaders = [
-    { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
+    { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name', underlyingValue: 'latlng' },
     { defaultValue: '', text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
     { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
     { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
@@ -31,6 +30,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
         const newLegs = legs;
         newLegs[row][col] = e.target.value;
         setLegs(newLegs);
+        console.log(newLegs)
     }
     return (
         <div className={ `upperBox ${ className }` }>
@@ -75,9 +75,6 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
                                     rows={ legs }
                                     setFocusedCell={ setFocusedBox }
                                 />
-                                // <div className={ 'normalBorder centerText thickCell' } style={ { gridRow: 3   + rowIdx, gridColumn: h.loc, height: 'auto' } }>
-                                //     { h.highlight ? <mark>{ leg[h.val] || '---' }</mark> : leg[h.val] || '---' }
-                                // </div>
                             )
                         }
                         {
