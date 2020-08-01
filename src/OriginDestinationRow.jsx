@@ -1,10 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import './Plan.css';
 import Cell from "./Cell";
 
-import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
-import RowEditor from "./RowEditor";
-import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader, upperBoxHeaders} from "./UpperBox";
+import { NormalHeightHeader, TwoCellsWithHeader } from "./UpperBox";
 
 const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, setTakeoffTime, takeoffTime }) => {
     const [focusedBox, setFocusedBox] = useState('');
@@ -28,12 +26,11 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
             default: break;
         }
     }
-    console.log(focusedBox)
     return (
         <div className={ 'originDestinationRow' }>
             {
                 headers.map((header, idx) =>
-                    <div style={ { gridRow: 0, gridColumn: header.loc } }>
+                    <div key={ `origdest-headers-${ header.val }`} style={ { gridRow: 0, gridColumn: header.loc } }>
                         <NormalHeightHeader text={ header.text }/>
                     </div>
                 )
@@ -41,10 +38,11 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
             {
                 headers.map((header, headerIdx) =>
                     <Cell
-                        colNum={ header.loc }
-                        focused={ focusedBox === `${ 0 }/${ header.loc }` }
+                        colNum={ headerIdx }
+                        focused={ focusedBox === `${ 0 }/${ headerIdx }` }
                         header={ header }
                         headers={ headers }
+                        key={ `origdest-vals${ headerIdx }` }
                         onTextFieldSubmit={ onTextFieldSubmit }
                         rowNum={ 0 }
                         rows={ row }

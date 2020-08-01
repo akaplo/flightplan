@@ -1,9 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
-import { ClickAwayListener, TextField, Button } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader} from "./UpperBox";
-import DeleteIcon from '@material-ui/icons/Delete';
+import { HalfHeightHeader, NormalHeightHeader } from "./UpperBox";
 import Cell from "./Cell";
 import RowEditor from "./RowEditor";
 
@@ -28,7 +25,7 @@ function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, 
         <div className={ `lowerBox ${ className }` }>
             {
                 lowerBoxHeaders.map(header =>
-                    <div style={ { gridRow: 2, gridColumn: header.loc } }>
+                    <div key={ `checkpts-headers-${ header.val }` } style={ { gridRow: 2, gridColumn: header.loc } }>
                         { header.halfHeight &&
                             <HalfHeightHeader sectionName={ header.sectionName } cellText={ header.text } gridColumn={ 4 } gridRow={ 2 }/>
                         }
@@ -40,21 +37,20 @@ function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, 
             }
             {
                 checkpoints.map((checkpt, row) =>
-                    <Fragment>
+                    <Fragment key={ `checkpts-rows-${ row }` }>
                         {
                             lowerBoxHeaders.map((h, col) =>
-                                <Fragment>
-                                    <Cell
-                                        header={ h }
-                                        colNum={ col }
-                                        focused={ focusedBox === `${ row }/${ col }` }
-                                        headers={ lowerBoxHeaders }
-                                        onTextFieldSubmit={ onTextFieldSubmit }
-                                        rowNum={ row }
-                                        rows={ checkpoints }
-                                        setFocusedCell={ setFocusedBox }
-                                    />
-                                </Fragment>
+                                <Cell
+                                    header={ h }
+                                    colNum={ col }
+                                    focused={ focusedBox === `${ row }/${ col }` }
+                                    headers={ lowerBoxHeaders }
+                                    key={ `checkpts-vals-${ row }${ col }` }
+                                    onTextFieldSubmit={ onTextFieldSubmit }
+                                    rowNum={ row }
+                                    rows={ checkpoints }
+                                    setFocusedCell={ setFocusedBox }
+                                />
                             )
                         }
                         {

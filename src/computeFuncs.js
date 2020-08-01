@@ -43,7 +43,6 @@ export const computeRowCellValues = (headers, rows) => {
                 // This reduces to a "Fly Heading" of 282.
                 let computeVals = {};
                 header.computeFrom.forEach(otherHeaderVal => computeVals[otherHeaderVal] = row[otherHeaderVal]);
-                console.log(computeVals)
                 const computed = Object.values(computeVals).filter(v => !!v).length > 0 ?
                     header.computeFunc(computeVals) : '';
                 newRows[rowIndex][header.val] = computed;

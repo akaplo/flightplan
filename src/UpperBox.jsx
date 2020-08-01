@@ -30,7 +30,6 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
         const newLegs = legs;
         newLegs[row][col] = e.target.value;
         setLegs(newLegs);
-        console.log(newLegs)
     }
     return (
         <div className={ `upperBox ${ className }` }>
@@ -40,7 +39,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
                 <span className={ 'topLeftText' }>Heading</span>
                 <span style={ { display: 'inline-flex', justifyContent: 'space-evenly', width: '100%' } }>
                     { legs.map((l, idx) =>
-                        <span>
+                        <span key={ `upperMagHdg-${ idx }` }>
                             <span>{ `Leg ${idx + 1}: ` }</span>
                             <span className={ 'boldText'} >{ l.magHdg }&#176;</span>
                         </span>
@@ -49,7 +48,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
             </div>
             {
                 upperBoxHeaders.map((header, idx) =>
-                    <div style={ { gridRow: 2, gridColumn: header.loc } }>
+                    <div key={ `upperHeaders-${ header.val }` } style={ { gridRow: 2, gridColumn: header.loc } }>
                         { header.halfHeight &&
                             <HalfHeightHeader gridRow={ 2 } gridColumn={ header.loc } cellText={ header.text } sectionName={ header.sectionName }/>
                         }
@@ -62,7 +61,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
             }
             {
                 legs.map((leg, rowIdx) =>
-                    <Fragment>
+                    <Fragment key={ `upperBoxFrag=${ rowIdx }` }>
                         {
                             upperBoxHeaders.map((h, colIdx) =>
                                 <Cell
@@ -70,6 +69,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
                                     focused={ focusedBox === `${ rowIdx }/${ colIdx }` }
                                     header={ h }
                                     headers={ upperBoxHeaders }
+                                    key={ `upperLegs-${ rowIdx }${ colIdx }` }
                                     onTextFieldSubmit={ onTextFieldSubmit }
                                     rowNum={ rowIdx }
                                     rows={ legs }
@@ -92,7 +92,11 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
             {
                 upperBoxHeaders.map(header =>
                     header.hasTotal && header.totalComputeFunc &&
-                    <div className={ 'normalBorder centerText cell italicText' } style={ { gridRow: 3 + legs.length, gridColumn: header.loc } }>
+                    <div
+                        className={ 'normalBorder centerText cell italicText' }
+                        key={ `upperTotals-${ header.val }`}
+                        style={ { gridRow: 3 + legs.length, gridColumn: header.loc } }
+                    >
                         { computeTotalCellValue(header, legs) }
                     </div>
                 )

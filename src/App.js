@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React, { useState } from 'react';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import './App.css';
@@ -24,7 +23,6 @@ const App = () => {
         { name: 'Pt Judith -> KBID', windHdg: 130, windSpd: 10, trueCourse: 180, magVariance: 14, magCourse: 194, windCrctAngle: 3, groundSpeed: 98, distance: 13, fuelCruise: .6, fuelExtra: 4 }
     ]));
     const [showRowEditor, setShowRowEditor] = useState(false)
-    console.log(legs[0])
   return (
       <MuiPickersUtilsProvider utils={ MomentUtils }>
         <div className="App">
@@ -36,6 +34,7 @@ const App = () => {
                         setLegs(oldLegs => [ ...moveItemInArray(oldLegs, oldIndex, newIndex) ]);
                     } }
                     setLegs={ (legs) => {
+                        console.log(legs);
                         setLegs(computeRowCellValues(upperBoxHeaders, legs));
                     } }
                     showRowEditor={ showRowEditor }

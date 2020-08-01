@@ -16,8 +16,10 @@ export const determineValue = (header, rows, rowNum) => {
 }
 
 const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onTextFieldSubmit, rows }) => {
+    if (typeof colNum ==='string') {
+        console.log(header, colNum)
+    }
     let valToDisplay = determineValue(header, rows, rowNum);
-    console.log(valToDisplay)
     return (
         <Fragment>
             {
@@ -26,6 +28,7 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                     <TextField
                         autoFocus
                         color={ 'secondary' }
+                        key={ `cell${ rowNum }${ colNum }` }
                         onBlur={ (e) => {
                             onTextFieldSubmit(e, header.val, rowNum);
                         } }
@@ -115,7 +118,7 @@ Cell.propTypes = {
         /** Location in the horizontal axis of the grid the header should appear
          * Example "1 / 2" (start at column 1, end at column 2). See gridColumn property of grids, MDN.
          */
-        loc: PropTypes.string,
+        loc: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         /** Whether this cell can be edited by the user */
         readOnly: PropTypes.bool,
         /** The header.vals of OTHER headers to use when computing this cell's value. Only set if isComputed is true */
