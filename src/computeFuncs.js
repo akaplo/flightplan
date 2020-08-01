@@ -70,7 +70,6 @@ export const computeRowCellValues = (headers, rows) => {
                 } else {
                     header.computeFrom.forEach(getValsForHeaders);
                 }
-                console.log(computeVals)
                 const computed = Object.values(computeVals).filter(v => !!v).length > 0 ?
                     header.computeFunc(computeVals) : '';
                 newRows[rowIndex][header.val] = computed;
