@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 import './App.css';
 import UpperBox, {upperBoxHeaders} from "./UpperBox";
 import LowerBox from "./LowerBox";
@@ -15,7 +17,7 @@ const App = () => {
     ]);
     const [destination, setDestination] = useState('Block Island (BID)');
     const [origin, setOrigin] = useState('Plymouth (PYM)');
-    const [takeoffTime, setTakeoffTime] = useState('12:30pm');
+    const [takeoffTime, setTakeoffTime] = useState(new Date().setHours(12, 30));
 
     const [legs, setLegs] = useState(computeRowCellValues(upperBoxHeaders, [
         { name: 'KPYM -> Pt Judith', windHdg: 120, windSpd: 12, trueCourse: 200, magVariance: 14, magCourse: 214, windCrctAngle: 1, groundSpeed: 95, distance: 45, fuelStartTakeoff: 1.1, fuelClimb: 2, fuelCruise: 7 },
@@ -24,6 +26,7 @@ const App = () => {
     const [showRowEditor, setShowRowEditor] = useState(false)
     console.log(legs[0])
   return (
+      <MuiPickersUtilsProvider utils={ MomentUtils }>
         <div className="App">
             <div className={ 'planWrapper'}>
                 <UpperBox
@@ -63,6 +66,7 @@ const App = () => {
                 checkpointEditorVisible={ showRowEditor }
             />
         </div>
+      </MuiPickersUtilsProvider>
 );
 }
 

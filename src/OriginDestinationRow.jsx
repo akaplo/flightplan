@@ -6,7 +6,7 @@ import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
 import RowEditor from "./RowEditor";
 import {HalfHeightHeader, NormalHeightHeader, TwoCellsWithHeader, upperBoxHeaders} from "./UpperBox";
 
-const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, takeoffTime }) => {
+const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, setTakeoffTime, takeoffTime }) => {
     const [focusedBox, setFocusedBox] = useState('');
     const headers = [
         { defaultValue: '', text: 'Origin', loc: 'span 6 / 7', val: 'origin' },
@@ -53,7 +53,15 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
                 )
             }
 
-            <TwoCellsWithHeader cell1Title={ 'Est' } cell1Value={ takeoffTime } cell2Title={ 'Actual' } gridColumn={ 'span 4 / 21' } gridRow={ 0 } header={ 'Takeoff Time' } />
+            <TwoCellsWithHeader
+                cell1Title={ 'Est' }
+                cell1Value={ takeoffTime }
+                cell2Title={ 'Actual' }
+                header={ 'Takeoff Time' }
+                gridColumn={ 'span 4 / 21' }
+                gridRow={ 0 }
+                setCell1Value={ setTakeoffTime }
+            />
         </div>
     );
 };

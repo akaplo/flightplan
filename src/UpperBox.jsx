@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import './Plan.css';
 import Cell from "./Cell";
-
+import { TextField } from "@material-ui/core";
 import {computeTotalCellValue, flightTime, sum} from "./computeFuncs";
 import RowEditor from "./RowEditor";
+import { TimePicker } from "@material-ui/pickers";
 
 export const upperBoxHeaders = [
     { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name' },
@@ -111,17 +112,21 @@ UpperBox.defaultProps = {
 export default UpperBox;
 
 
-export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, gridColumn, gridRow, header }) {
+export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, gridColumn, gridRow, header, setCell1Value }) {
     return (
-        <div className={'normalBorder cell'}
-             style={{gridRow, gridColumn, minHeight: '3rem'}}>
-            <div className={'boldText'} style={{borderBottom: '1px solid black', height: '30%', fontSize: '0.8rem'}}>
+        <div className={ 'normalBorder cell' }
+             style={ { gridRow, gridColumn, minHeight: '3rem' } }>
+            <div className={ 'boldText' } style={ { borderBottom: '1px solid black', height: '30%', fontSize: '0.8rem' } }>
                 { header }
             </div>
-            <div className={'flex spaceAround'} style={{bottom: 0}}>
-                <div className={'flex column'} style={{borderRight: '1px solid black', width: '50%'}}>
-                    <span className={'topLeftText'}>{ cell1Title }</span>
-                    <span style={{fontSize: '1rem'}}>{ cell1Value }</span>
+            <div className={ 'flex spaceAround' } style={ { bottom: 0 } }>
+                <div className={ 'flex column' } style={ { borderRight: '1px solid black', width: '50%' } }>
+                    <span className={ 'topLeftText' }>{ cell1Title }</span>
+                    <TimePicker
+                        id="time-picker"
+                        value={ cell1Value }
+                        onChange={ time => setCell1Value(time) }
+                    />
                 </div>
                 <div className={'flex column'} style={{borderRight: '1px solid black', width: '50%'}}>
                     <span className={'topLeftText'}>{ cell2Title }</span>
