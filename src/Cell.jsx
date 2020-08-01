@@ -76,15 +76,12 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
             {
                 focused && header.underlyingValue !== undefined &&
                 <UnderlyingValueModal
-                    handleClose={ () => setFocusedCell('') }
+                    handleClose={ (mainVal, underlyingVal) => {
+                        setFocusedCell('');
+                        onTextFieldSubmit({ target: { value: mainVal } }, header.val, rowNum);
+                        onTextFieldSubmit({ target: { value: underlyingVal } }, header.underlyingValue, rowNum);
+                    } }
                     mainValue={ rows[rowNum][header.val] }
-                    setMainValue={ (value) => onTextFieldSubmit(
-                        { target: { value }}, header.val, rowNum
-                    ) }
-                    setUnderlyingValue={ (value) => onTextFieldSubmit(
-                        { target: { value } }, header.underlyingValue, rowNum
-                    )
-                    }
                     title={ header.text }
                     underlyingValue={ rows[rowNum][header.underlyingValue] }
                 />

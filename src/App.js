@@ -34,8 +34,8 @@ const App = () => {
                         setLegs(oldLegs => [ ...moveItemInArray(oldLegs, oldIndex, newIndex) ]);
                     } }
                     setLegs={ (legs) => {
-                        console.log(legs);
-                        setLegs(computeRowCellValues(upperBoxHeaders, legs));
+                        const newLegs = computeRowCellValues(upperBoxHeaders, legs);
+                        setLegs(newLegs);
                     } }
                     showRowEditor={ showRowEditor }
                     removeRow={ index => setLegs(l => [...l.slice(0, index), ...l.slice(index + 1)]) }
