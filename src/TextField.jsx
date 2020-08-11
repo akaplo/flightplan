@@ -49,7 +49,7 @@ const TextField = ({
             }
             {
                 !focused &&
-                <div className={ `normalBorder centerText thickCell ${ unfocusedWrapperClass }` }
+                <div className={ unfocusedWrapperClass || 'normalBorder centerText thickCell' }
                      style={ unfocusedWrapperStyle }
                      onClick={ onFocus }
                 >

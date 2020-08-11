@@ -4,6 +4,7 @@ import Cell from "./Cell";
 import { computeTotalCellValue, distance, flightTime, sum } from "./computeFuncs";
 import RowEditor from "./RowEditor";
 import { TimePicker } from "@material-ui/pickers";
+import TextField from "./TextField";
 
 export const upperBoxHeaders = [
     { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name', underlyingValue: 'latlng' },
@@ -24,6 +25,15 @@ export const upperBoxHeaders = [
     { defaultValue: '', hasTotal: true, totalComputeFunc: sum, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', readOnly: true, isComputed: true, computeFrom: ['fuelStartTakeoff', 'fuelClimb', 'fuelCruise', 'fuelExtra'], computeFunc: sum },
 ];
 
+const topRow = {
+    cruiseAlt: {
+        loc: 'span 7 / 8'
+    },
+    cruiseKTAS: {
+        loc: 'span 3 / 11'
+    }
+};
+
 function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
     const onTextFieldSubmit = (val, col, row) => {
@@ -33,7 +43,24 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
     }
     return (
         <div className={ `upperBox ${ className }` }>
-            <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 7 / 8' } }>Cruise Altitude</div>
+            <TextField
+                defaultValue={ '' }
+                editableFieldStyle={ { gridRow: 1, gridColumn: topRow.cruiseAlt.loc } }
+                focused={ focusedBox === `1/${ topRow.cruiseAlt.loc }` }
+                key={ 'woo' }
+                onClickAway={ val => {
+                    setFocusedBox('');
+                } }
+                onEnterPressed={ val => {
+                    setFocusedBox('');
+                }}
+                onFocus={ () => setFocusedBox(`1/${ topRow.cruiseAlt.loc }`) }
+                onTabPressed={ () => setFocusedBox(`1/${ topRow.cruiseAlt.loc }`)}
+                unfocusedContent={ 'Cruise Altitude' }
+                unfocusedWrapperClass={ 'topLeftText thickBorder cell' }
+                unfocusedWrapperStyle={ { gridRow: 1, gridColumn: topRow.cruiseAlt.loc } }
+                usesUnderlyingValue={ false }
+            />
             <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 3 / 11' } }>Cruise KTAS</div>
             <div className={ 'thickBorder cell centerText'} style={ { gridRow: 1, gridColumn: 'span 7 / 18' } }>
                 <span className={ 'topLeftText' }>Heading</span>
