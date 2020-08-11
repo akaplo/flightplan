@@ -25,43 +25,61 @@ export const upperBoxHeaders = [
     { defaultValue: '', hasTotal: true, totalComputeFunc: sum, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', readOnly: true, isComputed: true, computeFrom: ['fuelStartTakeoff', 'fuelClimb', 'fuelCruise', 'fuelExtra'], computeFunc: sum },
 ];
 
-const topRow = {
-    cruiseAlt: {
-        loc: 'span 7 / 8'
-    },
-    cruiseKTAS: {
-        loc: 'span 3 / 11'
-    }
-};
-
-function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
+function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor, setCruiseAlt, setCruiseKTAS }) {
     const [focusedBox, setFocusedBox] = useState('');
+
+    const topRow = {
+        cruiseAlt: {
+            label: 'Cruise Altitude',
+            loc: 'span 7 / 8',
+            setValFunc: setCruiseAlt,
+            val: cruiseAlt,
+        },
+        cruiseKTAS: {
+            label: 'Cruise KTAS',
+            loc: 'span 3 / 11',
+            setValFunc: setCruiseKTAS,
+            val: cruiseKTAS
+        }
+    };
     const onTextFieldSubmit = (val, col, row) => {
         const newLegs = legs;
         newLegs[row][col] = val;
         setLegs(newLegs);
     }
+
     return (
         <div className={ `upperBox ${ className }` }>
-            <TextField
-                defaultValue={ '' }
-                editableFieldStyle={ { gridRow: 1, gridColumn: topRow.cruiseAlt.loc } }
-                focused={ focusedBox === `1/${ topRow.cruiseAlt.loc }` }
-                key={ 'woo' }
-                onClickAway={ val => {
-                    setFocusedBox('');
-                } }
-                onEnterPressed={ val => {
-                    setFocusedBox('');
-                }}
-                onFocus={ () => setFocusedBox(`1/${ topRow.cruiseAlt.loc }`) }
-                onTabPressed={ () => setFocusedBox(`1/${ topRow.cruiseAlt.loc }`)}
-                unfocusedContent={ 'Cruise Altitude' }
-                unfocusedWrapperClass={ 'topLeftText thickBorder cell' }
-                unfocusedWrapperStyle={ { gridRow: 1, gridColumn: topRow.cruiseAlt.loc } }
-                usesUnderlyingValue={ false }
-            />
-            <div className={ 'topLeftText thickBorder cell'} style={ { gridRow: 1, gridColumn: 'span 3 / 11' } }>Cruise KTAS</div>
+            {
+                Object.values(topRow).map(topRowHeader =>
+                    <TextField
+                        defaultValue={ topRowHeader['val'] }
+                        editableFieldStyle={ { gridRow: 1, gridColumn: topRowHeader.loc } }
+                        focused={ focusedBox === `1/${ topRowHeader.loc }` }
+                        key={ 'woo' }
+                        onClickAway={ val => {
+                            setFocusedBox('');
+                            topRowHeader.setValFunc(val);
+                        } }
+                        onEnterPressed={ val => {
+                            setFocusedBox('');
+                            topRowHeader.setValFunc(val);
+                        }}
+                        onFocus={ () => setFocusedBox(`1/${ topRowHeader.loc }`) }
+                        onTabPressed={ () => setFocusedBox(`1/${ topRowHeader.loc }`)}
+                        unfocusedContent={
+                            <Fragment>
+                                { topRowHeader.label }
+                                <span className={ 'centerText normalText' }>{ topRowHeader['val'] }</span>
+                            </Fragment>
+
+                        }
+                        unfocusedWrapperClass={ 'topLeftText thickBorder cell' }
+                        unfocusedWrapperStyle={ { gridRow: 1, gridColumn: topRowHeader.loc } }
+                        usesUnderlyingValue={ false }
+                    />
+                )
+            }
             <div className={ 'thickBorder cell centerText'} style={ { gridRow: 1, gridColumn: 'span 7 / 18' } }>
                 <span className={ 'topLeftText' }>Heading</span>
                 <span style={ { display: 'inline-flex', justifyContent: 'space-evenly', width: '100%' } }>

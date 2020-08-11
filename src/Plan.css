@@ -121,6 +121,12 @@
     font-style: italic;
 }
 
+.normalText {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
 .boldText {
     font-weight: bold;
 }

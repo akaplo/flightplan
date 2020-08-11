@@ -22,6 +22,8 @@ const App = () => {
         { name: 'KPYM -> Pt Judith', windHdg: 120, windSpd: 12, trueCourse: 200, magVariance: 14, magCourse: 214, windCrctAngle: 1, groundSpeed: 95, distance: 45, fuelStartTakeoff: 1.1, fuelClimb: 2, fuelCruise: 7 },
         { name: 'Pt Judith -> KBID', windHdg: 130, windSpd: 10, trueCourse: 180, magVariance: 14, magCourse: 194, windCrctAngle: 3, groundSpeed: 98, distance: 13, fuelCruise: .6, fuelExtra: 4 }
     ]));
+    const [cruiseAlt, setCruiseAlt] = useState('');
+    const [cruiseKTAS, setCruiseKTAS] = useState('');
     const [showRowEditor, setShowRowEditor] = useState(false)
   return (
       <MuiPickersUtilsProvider utils={ MomentUtils }>
@@ -29,10 +31,14 @@ const App = () => {
             <div className={ 'planWrapper'}>
                 <UpperBox
                     className={ 'gridSeparator' }
+                    cruiseAlt={ cruiseAlt }
+                    cruiseKTAS={ cruiseKTAS }
                     legs={ legs }
                     moveRow={ (oldIndex, newIndex) => {
                         setLegs(oldLegs => [ ...moveItemInArray(oldLegs, oldIndex, newIndex) ]);
                     } }
+                    setCruiseAlt={ setCruiseAlt }
+                    setCruiseKTAS={ setCruiseKTAS }
                     setLegs={ (legs) => {
                         const newLegs = computeRowCellValues(upperBoxHeaders, legs);
                         setLegs(newLegs);
