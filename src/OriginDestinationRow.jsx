@@ -14,8 +14,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
         [headers[0].val]: origin,
         [headers[1].val]: destination
     } ];
-    const onTextFieldSubmit = (e, col) => {
-        const val = e.target.value;
+    const onTextFieldSubmit = (val, col) => {
         switch (col) {
             case headers[0].val:
                 setOrigin(val);

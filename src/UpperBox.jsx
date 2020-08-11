@@ -26,9 +26,9 @@ export const upperBoxHeaders = [
 
 function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
-    const onTextFieldSubmit = (e, col, row) => {
+    const onTextFieldSubmit = (val, col, row) => {
         const newLegs = legs;
-        newLegs[row][col] = e.target.value;
+        newLegs[row][col] = val;
         setLegs(newLegs);
     }
     return (
@@ -64,7 +64,7 @@ function UpperBox({ className, legs, moveRow, takeoffTimeEst, setLegs, removeRow
                     <Fragment key={ `upperBoxFrag=${ rowIdx }` }>
                         {
                             upperBoxHeaders.map((h, colIdx) =>
-                                <Cell
+                               <Cell
                                     colNum={ colIdx }
                                     focused={ focusedBox === `${ rowIdx }/${ colIdx }` }
                                     header={ h }

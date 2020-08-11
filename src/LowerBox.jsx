@@ -16,9 +16,9 @@ function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, 
         {text: 'Actual', loc: 10, val: 'timeArrivedAct', halfHeight: true },
         {text: 'Remarks', loc: 'span 2 / 13', val: 'remarks' }
     ];
-    const onTextFieldSubmit = (e, col, row) => {
+    const onTextFieldSubmit = (val, col, row) => {
         const newCheckpoints = checkpoints;
-        newCheckpoints[row][col] = e.target.value;
+        newCheckpoints[row][col] = val;
         setCheckpoints(newCheckpoints);
     }
     return (

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './Plan.css';
-import {ClickAwayListener, TextField} from "@material-ui/core";
 import UnderlyingValueModal from "./UnderlyingValueModal";
+import TextField from './TextField';
 
 export const determineValue = (header, rows, rowNum) => {
     let valToDisplay = '';
@@ -23,78 +23,72 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
     return (
         <Fragment>
             {
-                focused && header.underlyingValue === undefined &&
-                <ClickAwayListener onClickAway={ () => setFocusedCell('') }>
-                    <TextField
-                        autoFocus
-                        color={ 'secondary' }
-                        key={ `cell${ rowNum }${ colNum }` }
-                        onBlur={ (e) => {
-                            onTextFieldSubmit(e, header.val, rowNum);
-                        } }
-                        onKeyDown={ (e) => {
-                            if (e.keyCode === 13) {
-                                onTextFieldSubmit(e, header.val, rowNum);
-                                setFocusedCell('')
-                            } else if (e.keyCode === 9) {
-                                e.preventDefault();
-                                onTextFieldSubmit(e, header.val, rowNum);
-                                let newCol;
-                                let newRow = rowNum;
-                                if (e.shiftKey) {
-                                    newCol = colNum === 0 ? headers.length - 1 : colNum - 1;
-                                    // Reached beginning of row
-                                    if (newCol > colNum) {
-                                        // if this is the first row
-                                        if (rowNum === 0) {
-                                            newRow = undefined;
-                                        } else {
-                                            newRow = rowNum - 1;
-                                        }
-                                    }
+                <TextField
+                    defaultValue={ rows[rowNum][header.val] }
+                    editableFieldStyle={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
+                    focused={ focused }
+                    key={ `${ rowNum }${ colNum }` }
+                    onClickAway={ val => {
+                        onTextFieldSubmit(val, header.val, rowNum);
+                        setFocusedCell('');
+                    } }
+                    onEnterPressed={ val => {
+                        onTextFieldSubmit(val, header.val, rowNum);
+                        setFocusedCell('');
+                    } }
+                    onFocus={ () => !header.readOnly && setFocusedCell(`${ rowNum }/${colNum}`) }
+                    onTabPressed={ (val, shiftPressed) => {
+                        onTextFieldSubmit(val, header.val, rowNum);
+                        let newCol;
+                        let newRow = rowNum;
+                        if (shiftPressed) {
+                            newCol = colNum === 0 ? headers.length - 1 : colNum - 1;
+                            // Reached beginning of row
+                            if (newCol > colNum) {
+                                // if this is the first row
+                                if (rowNum === 0) {
+                                    newRow = undefined;
                                 } else {
-                                    newCol = colNum === headers.length - 1 ? 0 : colNum + 1;
-                                    // Reached end of row
-                                    if (newCol < colNum) {
-                                        // if this is the last row
-                                        if (rowNum === rows.length -1) {
-                                            newRow = undefined;
-                                        } else {
-                                            newRow = rowNum + 1;
-                                        }
-                                    }
+                                    newRow = rowNum - 1;
                                 }
-                                setFocusedCell(newRow !== undefined ? `${ newRow }/${ newCol }` : '')
                             }
-                        } }
-                        style={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
-                        variant={ 'outlined' }
-                        defaultValue={ rows[rowNum][header.val] }
-                    />
-                </ClickAwayListener>
+                        } else {
+                            newCol = colNum === headers.length - 1 ? 0 : colNum + 1;
+                            // Reached end of row
+                            if (newCol < colNum) {
+                                // if this is the last row
+                                if (rowNum === rows.length -1) {
+                                    newRow = undefined;
+                                } else {
+                                    newRow = rowNum + 1;
+                                }
+                            }
+                        }
+                        setFocusedCell(newRow !== undefined ? `${ newRow }/${ newCol }` : '');
+                    } }
+                    unfocusedContent={
+                        <Fragment>
+                            { header.highlight && <mark>{ valToDisplay }</mark> }
+                            { !header.highlight && valToDisplay }
+                        </Fragment>
+                    }
+                    unfocusedWrapperClass={ !header.readOnly ? 'cellHover' : '' }
+                    unfocusedWrapperStyle={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
+                    usesUnderlyingValue={ header.underlyingValue !== undefined }
+                />
             }
             {
                 focused && header.underlyingValue !== undefined &&
                 <UnderlyingValueModal
                     handleClose={ (mainVal, underlyingVal) => {
                         setFocusedCell('');
-                        onTextFieldSubmit({ target: { value: mainVal } }, header.val, rowNum);
-                        onTextFieldSubmit({ target: { value: underlyingVal } }, header.underlyingValue, rowNum);
+                        onTextFieldSubmit(mainVal, header.val, rowNum);
+                        onTextFieldSubmit(underlyingVal, header.underlyingValue, rowNum);
                     } }
                     mainValue={ rows[rowNum][header.val] }
                     title={ header.text }
                     underlyingValue={ rows[rowNum][header.underlyingValue] }
                 />
-            }
-            {
-                !focused &&
-                <div className={ `normalBorder centerText thickCell ${ !header.readOnly && 'cellHover' }` }
-                     style={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
-                     onClick={ () => !header.readOnly && setFocusedCell(`${ rowNum }/${colNum}`)}
-                >
-                    { header.highlight && <mark>{ valToDisplay }</mark> }
-                    { !header.highlight && valToDisplay }
-                </div>
             }
         </Fragment>
     );
