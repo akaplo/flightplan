@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import SaveIcon from '@material-ui/icons/Save';
 import './ActionsBar.css';
 import IconButton from "@material-ui/core/IconButton";
@@ -10,7 +10,8 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import {downloadBlobAsFile} from "./fileUtils";
 
-const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible }) => {
+const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan }) => {
+    const inputFile = useRef(null);
     return (
         <footer className={ 'bar' }>
             <Tooltip title={ checkpointEditorVisible ? 'Cancel' : 'Remove Rows' }>
@@ -41,8 +42,16 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
                     <SaveIcon/>
                 </IconButton>
             </Tooltip>
+            <input type={ 'file' } onChange={ (e) => {
+                const files = e.target.files;
+                if (files.length === 0 || files.length > 1) {
+                    console.error('wrong number of files uploaded');
+                    return;
+                }
+                files[0].text().then(data => loadFlightPlan(JSON.parse(data)));
+            } } ref={ inputFile } style={ { display: 'none' } }/>
             <Tooltip title={ 'Open Plan' }>
-                <IconButton disabled>
+                <IconButton onClick={ () => inputFile.current.click() }>
                     <FolderOpenIcon/>
                 </IconButton>
             </Tooltip>

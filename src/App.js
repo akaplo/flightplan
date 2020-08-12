@@ -69,7 +69,14 @@ const App = () => {
                 addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
                 addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
                 generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
-                loadFile={ () => {} }
+                loadFlightPlan={ ({ cruiseAltitude, cruiseKTAS, legs, checkpoints, frequencies, notes, origin, destination }) => {
+                    setCruiseAlt(cruiseAltitude);
+                    setCruiseKTAS(cruiseKTAS);
+                    setLegs(legs);
+                    setCheckpoints(checkpoints);
+                    setOrigin(origin);
+                    setDestination(destination);
+                } }
                 showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
                 checkpointEditorVisible={ showRowEditor }
             />

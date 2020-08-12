@@ -56,7 +56,7 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTime
                         defaultValue={ topRowHeader['val'] }
                         editableFieldStyle={ { gridRow: 1, gridColumn: topRowHeader.loc } }
                         focused={ focusedBox === `1/${ topRowHeader.loc }` }
-                        key={ 'woo' }
+                        key={ `toprow-${ topRowHeader.label }` }
                         onClickAway={ val => {
                             setFocusedBox('');
                             topRowHeader.setValFunc(val);
