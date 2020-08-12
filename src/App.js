@@ -8,6 +8,7 @@ import ActionsBar from "./ActionsBar";
 import {computeRowCellValues} from "./computeFuncs";
 import {moveItemInArray} from "./utils";
 import OriginDestinationRow from "./OriginDestinationRow";
+import {generateFile} from "./fileUtils";
 
 const App = () => {
     const [checkpoints, setCheckpoints] = useState([
@@ -67,6 +68,8 @@ const App = () => {
             <ActionsBar
                 addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
                 addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
+                generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
+                loadFile={ () => {} }
                 showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
                 checkpointEditorVisible={ showRowEditor }
             />

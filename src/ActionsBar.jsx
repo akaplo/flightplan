@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SaveIcon from '@material-ui/icons/Save';
 import './ActionsBar.css';
 import IconButton from "@material-ui/core/IconButton";
@@ -8,8 +8,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from "@material-ui/core/Tooltip";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
+import {downloadBlobAsFile} from "./fileUtils";
 
-const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, showCheckpointEditor, checkpointEditorVisible }) => {
+const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible }) => {
     return (
         <footer className={ 'bar' }>
             <Tooltip title={ checkpointEditorVisible ? 'Cancel' : 'Remove Rows' }>
@@ -33,7 +34,10 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, showCheckpointEditor, che
                 </IconButton>
             </Tooltip>
             <Tooltip title={ 'Save Plan (Coming Soon)' }>
-                <IconButton disabled>
+                <IconButton onClick={ () => {
+                    const { blob, fileName } = generateFile();
+                    downloadBlobAsFile(blob, fileName)
+                } }>
                     <SaveIcon/>
                 </IconButton>
             </Tooltip>
