@@ -74,7 +74,7 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTime
                             </Fragment>
 
                         }
-                        unfocusedWrapperClass={ 'topLeftText thickBorder cell' }
+                        unfocusedWrapperClass={ 'topLeftText thickBorder cell cellHover' }
                         unfocusedWrapperStyle={ { gridRow: 1, gridColumn: topRowHeader.loc } }
                         usesUnderlyingValue={ false }
                     />
