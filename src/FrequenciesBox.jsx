@@ -4,7 +4,7 @@ import './Plan.css';
 import { NormalHeightHeader } from "./UpperBox";
 import TextField from "./TextField";
 
-const boxKeys = {
+export const boxKeys = {
     DEP_WX: 'departureWx',
     DEP_GND: 'departureGnd',
     DEP_CTAF: 'departureCTAF',

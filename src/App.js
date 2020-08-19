@@ -6,14 +6,14 @@ import UpperBox, {upperBoxHeaders} from "./UpperBox";
 import LowerBox from "./LowerBox";
 import ActionsBar from "./ActionsBar";
 import {computeRowCellValues} from "./computeFuncs";
-import {moveItemInArray} from "./utils";
+import {moveItemInArray, reverseFlightPlan} from "./utils";
 import OriginDestinationRow from "./OriginDestinationRow";
 import {generateFile} from "./fileUtils";
 import FrequenciesBox from "./FrequenciesBox";
 
 const App = () => {
     const [checkpoints, setCheckpoints] = useState([
-        { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5im', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
+        { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
         { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
     ]);
     const [destination, setDestination] = useState('Block Island (BID)');
@@ -94,6 +94,18 @@ const App = () => {
                 } }
                 showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
                 checkpointEditorVisible={ showRowEditor }
+                reverseFlightPlan={ () => {
+                    const f = reverseFlightPlan(legs, checkpoints, frequencies, origin, destination);
+                    setFrequencies(f.frequencies);
+                    setCheckpoints(f.checkpoints);
+                    setLegs(computeRowCellValues(upperBoxHeaders, (f.legs)));
+                    setOrigin(f.origin);
+                    setDestination(f.destination);
+                    setCruiseAlt('');
+                    setCruiseKTAS('');
+                    setTakeoffTimeAct(null);
+                    setTakeoffTimeEst(null);
+                } }
             />
         </div>
       </MuiPickersUtilsProvider>

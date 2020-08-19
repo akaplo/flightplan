@@ -5,16 +5,17 @@ import { computeTotalCellValue, distance, flightTime, sum } from "./computeFuncs
 import RowEditor from "./RowEditor";
 import { TimePicker } from "@material-ui/pickers";
 import TextField from "./TextField";
+import {capHeading} from "./utils";
 
 export const upperBoxHeaders = [
     { defaultValue: '', text: 'Leg Name', loc: `span 2 / 3`, val: 'name', underlyingValue: 'latlng' },
     { defaultValue: '', text: 'Hdg', loc: 3, halfHeight: true, sectionName: 'Wind', val: 'windHdg' },
     { defaultValue: '', text: 'Spd', loc: 4, halfHeight: true, val: 'windSpd' },
-    { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse' },
+    { defaultValue: '', text: 'True Course', loc: 5, val: 'trueCourse', isHeading: true },
     { defaultValue: '', text: '+w, -e', loc: 6, val: 'magVariance' },
-    { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true, isComputed: true, computeFrom: ['trueCourse', 'magVariance'], computeFunc: sum  },
+    { defaultValue: '', text: 'Mag Course', loc: 7, val: 'magCourse', readOnly: true, isComputed: true, computeFrom: ['trueCourse', 'magVariance'], computeFunc: sum, isHeading: true  },
     { defaultValue: '', text: '-L +R', loc: 8, val: 'windCrctAngle' },
-    { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum },
+    { defaultValue: '', text: 'Fly Hdg', loc: 9, val: 'magHdg', highlight: true, readOnly: true, isComputed: true, computeFrom: ['magCourse', 'windCrctAngle'], computeFunc: sum, isHeading: true },
     { defaultValue: '', text: 'Ground V', loc: 10, val: 'groundSpeed' },
     { defaultValue: '', hasTotal: true, text: 'Miles', loc: 11, val: 'distance', isComputed: true, computeFromUnderlying: ['latlng'], computeFunc: distance, totalComputeFunc: sum },
     { defaultValue: '', hasTotal: true, text: 'Time', loc: 12, val: 'time', highlight: true, readOnly: true, isComputed: true, computeFrom: ['groundSpeed', 'distance'], computeFunc: flightTime, totalComputeFunc: sum },
@@ -25,7 +26,7 @@ export const upperBoxHeaders = [
     { defaultValue: '', hasTotal: true, totalComputeFunc: sum, text: 'Total', loc: 17, halfHeight: true, val: 'fuelTotal', readOnly: true, isComputed: true, computeFrom: ['fuelStartTakeoff', 'fuelClimb', 'fuelCruise', 'fuelExtra'], computeFunc: sum },
 ];
 
-function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTimeEst, setLegs, removeRow, showRowEditor, setCruiseAlt, setCruiseKTAS }) {
+function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, setLegs, removeRow, showRowEditor, setCruiseAlt, setCruiseKTAS }) {
     const [focusedBox, setFocusedBox] = useState('');
 
     const topRow = {
@@ -47,7 +48,6 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTime
         newLegs[row][col] = val;
         setLegs(newLegs);
     }
-
     return (
         <div className={ `upperBox ${ className }` }>
             {
@@ -86,7 +86,7 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, takeoffTime
                     { legs.map((l, idx) =>
                         <span key={ `upperMagHdg-${ idx }` }>
                             <span>{ `Leg ${idx + 1}: ` }</span>
-                            <span className={ 'boldText'} >{ l.magHdg }&#176;</span>
+                            <span className={ 'boldText'} >{ capHeading(l.magHdg)?.toString().padStart(3, '0') }&#176;</span>
                         </span>
                     ) }
                 </span>

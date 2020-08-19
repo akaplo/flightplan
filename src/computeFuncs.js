@@ -6,7 +6,7 @@
  * { magHdg: 280, windCrctAngle: 2 }
  */
 
-import {getDistance} from "./utils";
+import { capHeading, getDistance} from "./utils";
 
 /**
  *

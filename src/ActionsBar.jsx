@@ -9,8 +9,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import {downloadBlobAsFile} from "./fileUtils";
+import {reverseCheckpointString} from "./utils";
+import LowPriorityIcon from '@material-ui/icons/LowPriority';
 
-const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan }) => {
+const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan, reverseFlightPlan }) => {
     const inputFile = useRef(null);
     return (
         <footer className={ 'bar' }>
@@ -53,6 +55,11 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
             <Tooltip title={ 'Open Plan' }>
                 <IconButton onClick={ () => inputFile.current.click() }>
                     <FolderOpenIcon/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={ 'Reverse Plan' }>
+                <IconButton onClick={ reverseFlightPlan }>
+                    <LowPriorityIcon/>
                 </IconButton>
             </Tooltip>
         </footer>

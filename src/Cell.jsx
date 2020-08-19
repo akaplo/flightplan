@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './Plan.css';
 import UnderlyingValueModal from "./UnderlyingValueModal";
 import TextField from './TextField';
+import { capHeading } from "./utils";
 
 export const determineValue = (header, rows, rowNum) => {
     let valToDisplay = '';
@@ -11,6 +12,10 @@ export const determineValue = (header, rows, rowNum) => {
     }
     if ((valToDisplay === '' || valToDisplay === undefined) && header.defaultValue) {
         valToDisplay = header.defaultValue;
+    }
+    if (header.isHeading) {
+        valToDisplay = capHeading(rows[rowNum][header.val]).toString().padStart(3, '0');
+
     }
     return valToDisplay
 }
