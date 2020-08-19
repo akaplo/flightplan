@@ -38,12 +38,25 @@ export const reverseCheckpointString = str => {
     let toReturn = str;
     const clockMappings = { 12: 6, 1: 7, 2: 8, 3: 9, 4: 10, 5: 11, 6: 12, 7: 1, 8: 2, 9: 3, 10: 4, 11: 5 };
     const directionMappings = { 'left': 'right', right: 'left' };
-
-    for (const [k, v] of Object.entries(clockMappings)) {
-        toReturn = toReturn.replace(`${ k }pm`, `${ v }pm`);
-    }
-    for (const [k, v] of Object.entries(directionMappings)) {
-        toReturn = toReturn.replace(k, v);
+    const words = str.split(' ');
+    for (const word of words) {
+        // if it's direction on a clockface
+        if ((word.length === 3 || word.length === 4) && word.endsWith('pm')) {
+            // figure out which clock number it is and switch it with its inverse
+            for (const [k, v] of Object.entries(clockMappings)) {
+                if (word.includes(k)) {
+                    toReturn = toReturn.replace(`${ k }pm`, `${ v }pm`);
+                    break;
+                }
+            }
+        }
+        // replace 'left' with right and vice versa
+        for (const [k, v] of Object.entries(directionMappings)) {
+            if (word === k) {
+                toReturn = toReturn.replace(k, v);
+                break;
+            }
+        }
     }
     return toReturn
 }
@@ -71,8 +84,7 @@ export const capHeading = heading => {
 const reverseLeg = leg => {
     let newLeg = { ...leg };
     newLeg.name = reverseLegName(leg.name);
-    const trueCourse = capHeading(leg.trueCourse - 180);
-    newLeg.trueCourse = trueCourse;
+    newLeg.trueCourse = capHeading(leg.trueCourse - 180);
     return newLeg;
 }
 
@@ -109,12 +121,11 @@ export const reverseFlightPlan = (legs, checkpoints, frequencies, origin, destin
     let newFrequencies = reverseFrequencies(frequencies);
     let newLegs = reverseLegs(legs);
     newCheckpoints = newCheckpoints.map(reverseCheckpoint);
-    const x = {
+    return {
         legs: newLegs,
         checkpoints: newCheckpoints.reverse(),
         frequencies: newFrequencies,
         origin: destination,
         destination: origin
     };
-    return x;
 }
