@@ -9,6 +9,7 @@ import {computeRowCellValues} from "./computeFuncs";
 import {moveItemInArray} from "./utils";
 import OriginDestinationRow from "./OriginDestinationRow";
 import {generateFile} from "./fileUtils";
+import FrequenciesBox from "./FrequenciesBox";
 
 const App = () => {
     const [checkpoints, setCheckpoints] = useState([
@@ -27,6 +28,15 @@ const App = () => {
     const [cruiseAlt, setCruiseAlt] = useState('');
     const [cruiseKTAS, setCruiseKTAS] = useState('');
     const [showRowEditor, setShowRowEditor] = useState(false)
+    const [frequencies, setFrequencies] = useState({
+        departureWx: 'PYM 135.625',
+        departureCTAF:'PYM 125.75',
+        enroute1: 'BOS 124.1',
+        enroute2: '',
+        destinationWx: 'BID 119.4',
+        destinationCTAF: 'BID 123.0',
+        other: 'PVD 123.9',
+    });
   return (
       <MuiPickersUtilsProvider utils={ MomentUtils }>
         <div className="App">
@@ -60,10 +70,12 @@ const App = () => {
                 />
                 <LowerBox
                     checkpoints={ checkpoints }
+                    frequencies={ frequencies }
                     moveRow={ (oldIndex, newIndex) => {
                         setCheckpoints(oldCheckpoints => [ ...moveItemInArray(oldCheckpoints, oldIndex, newIndex) ]);
                     } }
                     setCheckpoints={ setCheckpoints }
+                    setFrequencies={ f => setFrequencies(oldFreqs => ({ ...oldFreqs, ...f })) }
                     showRowEditor={ showRowEditor }
                     removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
                 />

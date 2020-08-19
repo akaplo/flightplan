@@ -34,7 +34,7 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
                     <AddLocationIcon/>
                 </IconButton>
             </Tooltip>
-            <Tooltip title={ 'Save Plan (Coming Soon)' }>
+            <Tooltip title={ 'Save Plan' }>
                 <IconButton onClick={ () => {
                     const { blob, fileName } = generateFile();
                     downloadBlobAsFile(blob, fileName)

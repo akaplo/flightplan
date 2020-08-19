@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
 import './Plan.css';
 import { HalfHeightHeader, NormalHeightHeader } from "./UpperBox";
 import Cell from "./Cell";
 import RowEditor from "./RowEditor";
+import FrequenciesBox from "./FrequenciesBox";
 
-function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, showRowEditor, takeoffTimeEst, }) {
+function LowerBox({ checkpoints, className, frequencies, moveRow, removeRow, setCheckpoints, setFrequencies, showRowEditor }) {
     const [focusedBox, setFocusedBox] = useState('');
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
@@ -22,7 +24,7 @@ function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, 
         setCheckpoints(newCheckpoints);
     }
     return (
-        <div className={ `lowerBox ${ className }` }>
+        <div className={ `lowerBox${ className ? ` ${ className }` : '' }` }>
             {
                 lowerBoxHeaders.map(header =>
                     <div key={ `checkpts-headers-${ header.val }` } style={ { gridRow: 2, gridColumn: header.loc } }>
@@ -60,6 +62,7 @@ function LowerBox({ checkpoints, className, moveRow, removeRow, setCheckpoints, 
                     </Fragment>
                 )
             }
+            <FrequenciesBox frequencies={ frequencies } setFrequencies={ setFrequencies }/>
         </div>
     );
 }
@@ -69,5 +72,10 @@ LowerBox.defaultProps = {
     origin: 'Plymouth, MA (PYM)',
     destination: 'BLock Island, RI (KBID)'
 };
+
+LowerBox.propTypes = {
+    frequencies: PropTypes.object, // see FrequenciesBox for shape details
+    setFrequencies: PropTypes.func
+}
 
 export default LowerBox;
