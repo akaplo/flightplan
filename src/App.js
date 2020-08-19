@@ -12,6 +12,7 @@ import {generateFile} from "./fileUtils";
 import FrequenciesBox from "./FrequenciesBox";
 
 const App = () => {
+    const [actionBarVisible, setActionBarVisible] = useState(true);
     const [checkpoints, setCheckpoints] = useState([
         { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
         { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
@@ -80,33 +81,36 @@ const App = () => {
                     removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
                 />
             </div>
-            <ActionsBar
-                addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
-                addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
-                generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
-                loadFlightPlan={ ({ cruiseAltitude, cruiseKTAS, legs, checkpoints, frequencies, notes, origin, destination }) => {
-                    setCruiseAlt(cruiseAltitude);
-                    setCruiseKTAS(cruiseKTAS);
-                    setLegs(legs);
-                    setCheckpoints(checkpoints);
-                    setOrigin(origin);
-                    setDestination(destination);
-                } }
-                showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
-                checkpointEditorVisible={ showRowEditor }
-                reverseFlightPlan={ () => {
-                    const f = reverseFlightPlan(legs, checkpoints, frequencies, origin, destination);
-                    setFrequencies(f.frequencies);
-                    setCheckpoints(f.checkpoints);
-                    setLegs(computeRowCellValues(upperBoxHeaders, (f.legs)));
-                    setOrigin(f.origin);
-                    setDestination(f.destination);
-                    setCruiseAlt('');
-                    setCruiseKTAS('');
-                    setTakeoffTimeAct(null);
-                    setTakeoffTimeEst(null);
-                } }
-            />
+            {
+                actionBarVisible && <ActionsBar
+                    addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
+                    addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
+                    generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
+                    loadFlightPlan={ ({ cruiseAltitude, cruiseKTAS, legs, checkpoints, frequencies, notes, origin, destination }) => {
+                        setCruiseAlt(cruiseAltitude);
+                        setCruiseKTAS(cruiseKTAS);
+                        setLegs(legs);
+                        setCheckpoints(checkpoints);
+                        setOrigin(origin);
+                        setDestination(destination);
+                    } }
+                    showCheckpointEditor={ () => setShowRowEditor(oldVal => !oldVal) }
+                    checkpointEditorVisible={ showRowEditor }
+                    reverseFlightPlan={ () => {
+                        const f = reverseFlightPlan(legs, checkpoints, frequencies, origin, destination);
+                        setFrequencies(f.frequencies);
+                        setCheckpoints(f.checkpoints);
+                        setLegs(computeRowCellValues(upperBoxHeaders, (f.legs)));
+                        setOrigin(f.origin);
+                        setDestination(f.destination);
+                        setCruiseAlt('');
+                        setCruiseKTAS('');
+                        setTakeoffTimeAct(null);
+                        setTakeoffTimeEst(null);
+                    } }
+                    setActionBarVisible={ setActionBarVisible }
+                />
+            }
         </div>
       </MuiPickersUtilsProvider>
 );

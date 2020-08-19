@@ -9,14 +9,21 @@ import Tooltip from "@material-ui/core/Tooltip";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import {downloadBlobAsFile} from "./fileUtils";
-import {reverseCheckpointString} from "./utils";
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
+import html2canvas from 'html2canvas';
+import ImageIcon from '@material-ui/icons/Image';
 
-const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan, reverseFlightPlan }) => {
+const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan, reverseFlightPlan, setActionBarVisible }) => {
     const inputFile = useRef(null);
     return (
         <footer className={ 'bar' }>
-            <Tooltip title={ checkpointEditorVisible ? 'Cancel' : 'Remove Rows' }>
+            <Tooltip title={ 'By Aaron Kaplowitz, 2020' }>
+                <div className={ 'logo' }>
+                    FlightPlanJS
+                </div>
+            </Tooltip>
+
+            <Tooltip title={ checkpointEditorVisible ? 'Cancel' : 'Move/Remove Rows' }>
                 <IconButton onClick={ showCheckpointEditor }>
                     {
                         !checkpointEditorVisible && <EditIcon/>
@@ -60,6 +67,21 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
             <Tooltip title={ 'Reverse Plan' }>
                 <IconButton onClick={ reverseFlightPlan }>
                     <LowPriorityIcon/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={ 'Generate Downloadable Image' }>
+                <IconButton onClick={ () => {
+                    const prevHeight = document.body.scrollHeight;
+                    setActionBarVisible(false);
+                    window.setTimeout(() => {
+                        html2canvas(document.body).then(function(canvas) {
+                            document.body.appendChild(canvas);
+                            setActionBarVisible(true, canvas);
+                            window.scrollTo({ behavior: 'smooth', top: prevHeight });
+                        });
+                    }, 200)
+                } }>
+                    <ImageIcon/>
                 </IconButton>
             </Tooltip>
         </footer>
