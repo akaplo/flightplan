@@ -4,7 +4,7 @@ import Cell from "./Cell";
 
 import { NormalHeightHeader, TwoCellsWithHeader } from "./UpperBox";
 
-const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, setTakeoffTime, takeoffTime }) => {
+const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, setTakeoffTimeAct, setTakeoffTimeEst, takeoffTimeEst, takeoffTimeAct }) => {
     const [focusedBox, setFocusedBox] = useState('');
     const headers = [
         { defaultValue: '', text: 'Origin', loc: 'span 6 / 7', val: 'origin' },
@@ -52,12 +52,14 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
 
             <TwoCellsWithHeader
                 cell1Title={ 'Est' }
-                cell1Value={ takeoffTime }
+                cell1Value={ takeoffTimeEst }
+                cell2Value={ takeoffTimeAct }
                 cell2Title={ 'Actual' }
                 header={ 'Takeoff Time' }
                 gridColumn={ 'span 4 / 21' }
                 gridRow={ 0 }
-                setCell1Value={ setTakeoffTime }
+                setCell1Value={ setTakeoffTimeEst }
+                setCell2Value={ setTakeoffTimeAct }
             />
         </div>
     );

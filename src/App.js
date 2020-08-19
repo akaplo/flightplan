@@ -17,7 +17,8 @@ const App = () => {
     ]);
     const [destination, setDestination] = useState('Block Island (BID)');
     const [origin, setOrigin] = useState('Plymouth (PYM)');
-    const [takeoffTime, setTakeoffTime] = useState(new Date().setHours(12, 30));
+    const [takeoffTimeEst, setTakeoffTimeEst] = useState(new Date().setHours(12, 30));
+    const [takeoffTimeAct, setTakeoffTimeAct] = useState(null);
 
     const [legs, setLegs] = useState(computeRowCellValues(upperBoxHeaders, [
         { name: 'KPYM -> Pt Judith', windHdg: 120, windSpd: 12, trueCourse: 200, magVariance: 14, magCourse: 214, windCrctAngle: 1, groundSpeed: 95, distance: 45, fuelStartTakeoff: 1.1, fuelClimb: 2, fuelCruise: 7 },
@@ -52,8 +53,10 @@ const App = () => {
                     origin={ origin }
                     setDestination={ setDestination}
                     setOrigin={ setOrigin }
-                    takeoffTime={ takeoffTime }
-                    setTakeoffTime={ setTakeoffTime }
+                    takeoffTimeAct={ takeoffTimeAct }
+                    setTakeoffTimeAct={ setTakeoffTimeAct }
+                    takeoffTimeEst={ takeoffTimeEst }
+                    setTakeoffTimeEst={ setTakeoffTimeEst }
                 />
                 <LowerBox
                     checkpoints={ checkpoints }

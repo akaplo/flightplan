@@ -158,7 +158,7 @@ UpperBox.defaultProps = {
 export default UpperBox;
 
 
-export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, gridColumn, gridRow, header, setCell1Value }) {
+export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, gridColumn, gridRow, header, setCell1Value, setCell2Value }) {
     return (
         <div className={ 'normalBorder cell' }
              style={ { gridRow, gridColumn, minHeight: '3rem' } }>
@@ -176,7 +176,11 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
                 </div>
                 <div className={'flex column'} style={{borderRight: '1px solid black', width: '50%'}}>
                     <span className={'topLeftText'}>{ cell2Title }</span>
-                    <span style={{fontSize: '1rem'}}>{ cell2Value }</span>
+                    <TimePicker
+                        id="time-picker"
+                        value={ cell2Value }
+                        onChange={ time => setCell2Value(time) }
+                    />
                 </div>
             </div>
         </div>
