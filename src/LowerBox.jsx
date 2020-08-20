@@ -11,7 +11,7 @@ function LowerBox({ checkpoints, className, frequencies, moveRow, removeRow, set
     const lowerBoxHeaders = [
         {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
         { text: 'Pt to Pt', loc: 5, val: 'distPtToPt', sectionName: 'Distance', halfHeight: true },
-        {text: 'Remaining', loc: 6, val: 'distRemaining', halfHeight: true, readOnly: true },
+        {text: 'Remaining', loc: 6, val: 'distRemaining', halfHeight: true },
         {text: 'Estimated', loc: 7, val: 'timeElapsedEst', sectionName: 'Elapsed Time', halfHeight: true },
         {text: 'Actual', loc: 8, val: 'timeElapsedAct', halfHeight: true },
         {text: 'Estimated', loc: 9, val: 'timeArrivedEst', sectionName: 'Arrival Time', halfHeight: true },

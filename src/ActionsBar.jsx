@@ -12,8 +12,9 @@ import {downloadBlobAsFile} from "./fileUtils";
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import html2canvas from 'html2canvas';
 import ImageIcon from '@material-ui/icons/Image';
+import DonutSmallIcon from '@material-ui/icons/DonutSmall';
 
-const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFlightPlan, reverseFlightPlan, setActionBarVisible }) => {
+const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpointEditor, checkpointEditorVisible, loadFakeData, loadFlightPlan, reverseFlightPlan, setActionBarVisible }) => {
     const inputFile = useRef(null);
     return (
         <footer className={ 'bar' }>
@@ -82,6 +83,11 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
                     }, 200)
                 } }>
                     <ImageIcon/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={ 'Reverse Plan' }>
+                <IconButton onClick={ loadFakeData }>
+                    <DonutSmallIcon/>
                 </IconButton>
             </Tooltip>
         </footer>

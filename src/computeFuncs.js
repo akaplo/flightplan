@@ -11,16 +11,20 @@ import { capHeading, getDistance} from "./utils";
 /**
  *
  */
-export const sum = (mappings) =>
-    Math.round(Object
-        .values(mappings)
-        .filter(val => val !== undefined && val !== null)
-        .reduce((accumulator, currentValue) => {
-            const curVal = Number.parseFloat(currentValue, 10) || 0;
-            const prevVal = Number.parseFloat(accumulator) || 0;
-            return prevVal + curVal;
-        }) * 10) / 10;
+export const sum = (mappings) => {
+    const filteredValues = Object.values(mappings).filter(val => val !== undefined && val !== null);
 
+    if (filteredValues.length > 0) {
+        return Math.round(filteredValues
+            .reduce((accumulator, currentValue) => {
+                const curVal = Number.parseFloat(currentValue, 10) || 0;
+                const prevVal = Number.parseFloat(accumulator) || 0;
+                return prevVal + curVal;
+            }) * 10) / 10;
+    } else {
+        return 0;
+    }
+};
 /** Requires [ { groundSpeed: <> }, { distance: <> } ]*/
 export const flightTime = (mappings) => {
     const distance = Number.parseFloat(mappings['distance']) || 0;

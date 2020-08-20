@@ -9,35 +9,21 @@ import {computeRowCellValues} from "./computeFuncs";
 import {moveItemInArray, reverseFlightPlan} from "./utils";
 import OriginDestinationRow from "./OriginDestinationRow";
 import {generateFile} from "./fileUtils";
-import FrequenciesBox from "./FrequenciesBox";
+import * as pymToBIDFakeData from './mockdata/pym_bid';
 
 const App = () => {
     const [actionBarVisible, setActionBarVisible] = useState(true);
-    const [checkpoints, setCheckpoints] = useState([
-        { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
-        { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
-    ]);
-    const [destination, setDestination] = useState('Block Island (BID)');
-    const [origin, setOrigin] = useState('Plymouth (PYM)');
-    const [takeoffTimeEst, setTakeoffTimeEst] = useState(new Date().setHours(12, 30));
+    const [checkpoints, setCheckpoints] = useState([{}]);
+    const [destination, setDestination] = useState('');
+    const [origin, setOrigin] = useState('');
+    const [takeoffTimeEst, setTakeoffTimeEst] = useState(null);
     const [takeoffTimeAct, setTakeoffTimeAct] = useState(null);
 
-    const [legs, setLegs] = useState(computeRowCellValues(upperBoxHeaders, [
-        { name: 'KPYM -> Pt Judith', windHdg: 120, windSpd: 12, trueCourse: 200, magVariance: 14, magCourse: 214, windCrctAngle: 1, groundSpeed: 95, distance: 45, fuelStartTakeoff: 1.1, fuelClimb: 2, fuelCruise: 7 },
-        { name: 'Pt Judith -> KBID', windHdg: 130, windSpd: 10, trueCourse: 180, magVariance: 14, magCourse: 194, windCrctAngle: 3, groundSpeed: 98, distance: 13, fuelCruise: .6, fuelExtra: 4 }
-    ]));
+    const [legs, setLegs] = useState([{ magVariance: 14 }]);
     const [cruiseAlt, setCruiseAlt] = useState('');
     const [cruiseKTAS, setCruiseKTAS] = useState('');
     const [showRowEditor, setShowRowEditor] = useState(false)
-    const [frequencies, setFrequencies] = useState({
-        departureWx: 'PYM 135.625',
-        departureCTAF:'PYM 125.75',
-        enroute1: 'BOS 124.1',
-        enroute2: '',
-        destinationWx: 'BID 119.4',
-        destinationCTAF: 'BID 123.0',
-        other: 'PVD 123.9',
-    });
+    const [frequencies, setFrequencies] = useState({});
   return (
       <MuiPickersUtilsProvider utils={ MomentUtils }>
         <div className="App">
@@ -86,6 +72,13 @@ const App = () => {
                     addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
                     addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, []])) }
                     generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
+                    loadFakeData={ () => {
+                        setLegs(computeRowCellValues(upperBoxHeaders, pymToBIDFakeData.legs));
+                        setCheckpoints(pymToBIDFakeData.checkpoints);
+                        setDestination(pymToBIDFakeData.destination);
+                        setOrigin(pymToBIDFakeData.origin);
+                        setTakeoffTimeEst(pymToBIDFakeData.takeoffTimeEst);
+                    }}
                     loadFlightPlan={ ({ cruiseAltitude, cruiseKTAS, legs, checkpoints, frequencies, notes, origin, destination }) => {
                         setCruiseAlt(cruiseAltitude);
                         setCruiseKTAS(cruiseKTAS);

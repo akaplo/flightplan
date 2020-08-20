@@ -14,7 +14,7 @@ export const determineValue = (header, rows, rowNum) => {
         valToDisplay = header.defaultValue;
     }
     if (header.isHeading) {
-        valToDisplay = capHeading(rows[rowNum][header.val]).toString().padStart(3, '0');
+        valToDisplay = capHeading(rows[rowNum][header.val])?.toString()?.padStart(3, '0') || '';
 
     }
     return valToDisplay
