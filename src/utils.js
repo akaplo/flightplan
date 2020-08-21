@@ -35,6 +35,9 @@ export const getDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 export const reverseCheckpointString = str => {
+    if (!str) {
+        return;
+    }
     let toReturn = str;
     const clockMappings = { 12: 6, 1: 7, 2: 8, 3: 9, 4: 10, 5: 11, 6: 12, 7: 1, 8: 2, 9: 3, 10: 4, 11: 5 };
     const directionMappings = { 'left': 'right', right: 'left' };
@@ -62,6 +65,9 @@ export const reverseCheckpointString = str => {
 }
 
 export const reverseLegName = str => {
+    if (!str) {
+        return;
+    }
     let oldStart;
     let oldEnd;
     if (str.includes(' -> ')) {
@@ -83,14 +89,14 @@ export const capHeading = heading => {
 
 const reverseLeg = leg => {
     let newLeg = { ...leg };
-    newLeg.name = reverseLegName(leg.name);
-    newLeg.trueCourse = capHeading(leg.trueCourse - 180);
+    newLeg.name = newLeg.name ?? reverseLegName(leg.name);
+    newLeg.trueCourse = newLeg.trueCourse ?? capHeading(leg.trueCourse - 180);
     return newLeg;
 }
 
 const reverseLegs = legs => {
-    const fuelStartTakeoff = legs[0].fuelStartTakeoff;
-    const fuelExtra = legs[legs.length-1].fuelExtra;
+    const fuelStartTakeoff = legs[0]?.fuelStartTakeoff;
+    const fuelExtra = legs[legs.length-1]?.fuelExtra;
 
     return legs.reverse().map((l, idx) => ({
         ...reverseLeg(l),
@@ -103,7 +109,7 @@ const reverseLegs = legs => {
 }
 
 const reverseCheckpoint = checkPoint => {
-    return { ...checkPoint, description: reverseCheckpointString(checkPoint.description) };
+    return { ...checkPoint, description: checkPoint.description ?? reverseCheckpointString(checkPoint.description) };
 };
 
 const reverseFrequencies = freqObj => ({
@@ -117,13 +123,12 @@ const reverseFrequencies = freqObj => ({
 });
 
 export const reverseFlightPlan = (legs, checkpoints, frequencies, origin, destination) => {
-    let newCheckpoints = checkpoints;
     let newFrequencies = reverseFrequencies(frequencies);
-    let newLegs = reverseLegs(legs);
-    newCheckpoints = newCheckpoints.map(reverseCheckpoint);
+    let newLegs = legs.length > 1 ? reverseLegs(legs) : legs;
+    const newCheckpoints = checkpoints.length > 1 ? checkpoints.map(reverseCheckpoint).reverse() : checkpoints;
     return {
         legs: newLegs,
-        checkpoints: newCheckpoints.reverse(),
+        checkpoints: newCheckpoints,
         frequencies: newFrequencies,
         origin: destination,
         destination: origin

@@ -18,10 +18,10 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    margin-left: -4.2rem;
     padding: 0 0.8rem;
 }
 .logo:hover {
     color: white;
     background: #282c34;
+    cursor: default;
 }

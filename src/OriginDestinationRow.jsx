@@ -3,12 +3,13 @@ import './Plan.css';
 import Cell from "./Cell";
 
 import { NormalHeightHeader, TwoCellsWithHeader } from "./UpperBox";
+import TextField from "./TextField";
 
 const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, setTakeoffTimeAct, setTakeoffTimeEst, takeoffTimeEst, takeoffTimeAct }) => {
-    const [focusedBox, setFocusedBox] = useState('');
+    const [focusedBox, setFocusedBox] = useState(undefined);
     const headers = [
-        { defaultValue: '', text: 'Origin', loc: 'span 6 / 7', val: 'origin' },
-        { defaultValue: '', text: 'Destination', loc: 'span 6 / 13', val: 'destination' },
+        { defaultValue: '', text: 'Origin', loc: 'span 4 / 5', val: 'origin' },
+        { defaultValue: '', text: 'Destination', loc: 'span 4 / 9', val: 'destination' },
     ];
     const row = [ {
         [headers[0].val]: origin,
@@ -29,23 +30,41 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
         <div className={ 'originDestinationRow' }>
             {
                 headers.map((header, idx) =>
-                    <div key={ `origdest-headers-${ header.val }`} style={ { gridRow: 0, gridColumn: header.loc } }>
+                    <div key={ `origdest-headers-${ header.val }`} style={ { gridRow: 1, gridColumn: header.loc } }>
                         <NormalHeightHeader text={ header.text }/>
                     </div>
                 )
             }
             {
                 headers.map((header, headerIdx) =>
-                    <Cell
-                        colNum={ headerIdx }
-                        focused={ focusedBox === `${ 0 }/${ headerIdx }` }
-                        header={ header }
-                        headers={ headers }
-                        key={ `origdest-vals${ headerIdx }` }
-                        onTextFieldSubmit={ onTextFieldSubmit }
-                        rowNum={ 0 }
-                        rows={ row }
-                        setFocusedCell={ setFocusedBox }
+                    <TextField
+                        defaultValue={ header.val === 'origin' ? origin : destination }
+                        editableFieldStyle={ { gridRow: 2, gridColumn: header.loc } }
+                        focused={ focusedBox === headerIdx }
+                        key={ header.val }
+                        onEnterPressed={ (val) => {
+                            onTextFieldSubmit(val, header.val);
+                            setFocusedBox(undefined);
+                        } }
+                        onFocus={ () => setFocusedBox(headerIdx) }
+                        onClickAway={ (val) => {
+                            onTextFieldSubmit(val, header.val);
+                            setFocusedBox(undefined);
+                        } }
+                        onTabPressed={ (val, shiftPressed) => {
+                            onTextFieldSubmit(val, header.val);
+                            if (headerIdx === 0) {
+                                setFocusedBox(shiftPressed ? undefined : 1);
+                            } else if (headerIdx === headers.length - 1) {
+                                setFocusedBox(shiftPressed ? headerIdx - 1 : undefined)
+                            } else {
+                                setFocusedBox(shiftPressed ? headerIdx - 1 : headerIdx + 1);
+                            }
+                        } }
+                        unfocusedContent={ header.val === 'origin' ? origin : destination }
+                        unfocusedWrapperClass={ `normalBorder centerText thickCell ${ !header.readOnly ? 'cellHover' : '' }` }
+                        unfocusedWrapperStyle={ { gridRow: 2, gridColumn: header.loc } }
+                        usesUnderlyingValue={ false }
                     />
                 )
             }
@@ -56,8 +75,6 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
                 cell2Value={ takeoffTimeAct }
                 cell2Title={ 'Actual' }
                 header={ 'Takeoff Time' }
-                gridColumn={ 'span 4 / 21' }
-                gridRow={ 0 }
                 setCell1Value={ setTakeoffTimeEst }
                 setCell2Value={ setTakeoffTimeAct }
             />

@@ -85,7 +85,7 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
                     <ImageIcon/>
                 </IconButton>
             </Tooltip>
-            <Tooltip title={ 'Reverse Plan' }>
+            <Tooltip title={ 'Populate Mock Data' }>
                 <IconButton onClick={ loadFakeData }>
                     <DonutSmallIcon/>
                 </IconButton>

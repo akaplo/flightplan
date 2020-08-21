@@ -150,7 +150,6 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, setLegs, re
     );
 }
 UpperBox.defaultProps = {
-    takeoffTimeEst: '12:30pm',
     origin: 'Plymouth, MA (PYM)',
     destination: 'BLock Island, RI (KBID)'
 };
@@ -158,15 +157,14 @@ UpperBox.defaultProps = {
 export default UpperBox;
 
 
-export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, gridColumn, gridRow, header, setCell1Value, setCell2Value }) {
+export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, header, setCell1Value, setCell2Value }) {
     return (
-        <div className={ 'normalBorder cell' }
-             style={ { gridRow, gridColumn, minHeight: '3rem' } }>
-            <div className={ 'boldText' } style={ { borderBottom: '1px solid black', height: '30%', fontSize: '0.8rem' } }>
+        <Fragment>
+            <div className={ 'boldText thickBorder' } style={ { gridColumn: 'span 2 / 12', gridRow: 1, borderBottom: '1px solid black', fontSize: '0.8rem', height: '2.5rem' } }>
                 { header }
             </div>
-            <div className={ 'flex spaceAround' } style={ { bottom: 0 } }>
-                <div className={ 'flex column' } style={ { borderRight: '1px solid black', width: '50%' } }>
+            <div className={ 'flex spaceAround borderLeft borderRight borderBottom' } style={ { gridRow: 2, gridColumn: 'span 2 / 12', bottom: 0 } }>
+                <div className={ 'flex column borderRight' } style={ { width: '50%' } }>
                     <span className={ 'topLeftText' }>{ cell1Title }</span>
                     <TimePicker
                         id="time-picker"
@@ -174,7 +172,7 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
                         onChange={ time => setCell1Value(time) }
                     />
                 </div>
-                <div className={'flex column'} style={{borderRight: '1px solid black', width: '50%'}}>
+                <div className={'flex column'} style={{gridRow: 2, gridColumn: 'span 2 / 12', width: '50%'}}>
                     <span className={'topLeftText'}>{ cell2Title }</span>
                     <TimePicker
                         id="time-picker"
@@ -183,22 +181,21 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
                     />
                 </div>
             </div>
-        </div>
+        </Fragment>
     );
 }
 
 export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }) {
     return (
         <Fragment>
-            <div className={ `thickBorderBottom thickBorderTop ${ sectionName && 'borderLeft' } italicText` } style={ { gridRow, gridColumn, height: '1rem', top: 0 } }>
+            <div
+                className={ `thickBorderBottom thickBorderTop ${ sectionName && 'borderLeft' } italicText halfHeightHeader` }
+                style={ { gridRow, gridColumn  } }
+            >
                 { sectionName }
             </div>
             <div
-                className={ 'thickBorderLeft thickBorderRight centerText boldText' }
-                style={ {
-                    height: '1.5rem',
-                    fontStyle: 'italic'
-                } }
+                className={ 'thickBorderLeft centerText boldText italicText halfHeightHeader' }
             >
                 { cellText }
             </div>

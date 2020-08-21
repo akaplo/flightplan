@@ -3,6 +3,10 @@
   min-height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .planWrapper {
   padding: 5rem;
 }

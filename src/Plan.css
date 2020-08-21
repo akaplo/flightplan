@@ -15,7 +15,7 @@
 
 .originDestinationRow {
     display: grid;
-    grid-template-columns: repeat(28, 1fr);
+    grid-template-columns: repeat(14, 1fr);
     margin-bottom: 2rem;
 }
 
@@ -76,6 +76,10 @@
 
 .borderBottom {
     border-bottom: 1px solid black;
+}
+
+.borderRight {
+    border-right: 1px solid black;
 }
 
 .thickBorderBottom {
@@ -151,4 +155,12 @@
 .frequenciesWrapper {
     width: 15%;
     margin-left: 1%;
+}
+.halfHeightHeader {
+    font-size: 1rem;
+    height: 1.25rem;
+    top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: no-wrap;
 }
