@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import PropTypes from 'prop-types';
 import './Plan.css';
-import { NormalHeightHeader } from "./UpperBox";
 import TextField from "./TextField";
 
 export const boxKeys = {
@@ -20,7 +19,7 @@ const FrequenciesBox = ({ frequencies, setFrequencies }) => {
     const [focusedBox, setFocusedBox] = useState('');
     return (
         <Fragment>
-            <div className={ 'thickBorder centerText boldText' } style={ { gridRow: 2, gridColumn: 'span 3 / 16' } }>
+            <div className={ 'normalHeader thickBorder centerText boldText' } style={ { gridRow: 2, gridColumn: 'span 3 / 16' } }>
                 Frequencies
             </div>
             {

@@ -160,7 +160,7 @@ export default UpperBox;
 export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, header, setCell1Value, setCell2Value }) {
     return (
         <Fragment>
-            <div className={ 'boldText thickBorder' } style={ { gridColumn: 'span 2 / 12', gridRow: 1, borderBottom: '1px solid black', fontSize: '0.8rem', height: '2.5rem' } }>
+            <div className={ 'normalHeader boldText thickBorder centerText bottomBorder' } style={ { gridColumn: 'span 2 / 12', gridRow: 1 } }>
                 { header }
             </div>
             <div className={ 'flex spaceAround borderLeft borderRight borderBottom' } style={ { gridRow: 2, gridColumn: 'span 2 / 12', bottom: 0 } }>
@@ -189,14 +189,12 @@ export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }
     return (
         <Fragment>
             <div
-                className={ `thickBorderBottom thickBorderTop ${ sectionName && 'borderLeft' } italicText halfHeightHeader` }
+                className={ `halfHeightHeader thickBorderBottom thickBorderTop ${ sectionName && 'borderLeft' } italicText` }
                 style={ { gridRow, gridColumn  } }
             >
                 { sectionName }
             </div>
-            <div
-                className={ 'thickBorderLeft centerText boldText italicText halfHeightHeader' }
-            >
+            <div className={ 'halfHeightHeader borderRight thickBorderLeft centerText boldText italicText' }>
                 { cellText }
             </div>
         </Fragment>
@@ -205,12 +203,7 @@ export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }
 
 export function NormalHeightHeader ({ text }) {
     return (
-        <div
-            className={ 'thickBorder centerText boldText' }
-            style={ {
-                height: '2.5rem',
-            } }
-        >
+        <div className={ 'normalHeader thickBorder centerText boldText' }>
             { text }
         </div>
     );

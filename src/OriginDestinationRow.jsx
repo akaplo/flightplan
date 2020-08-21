@@ -74,7 +74,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
                 cell1Value={ takeoffTimeEst }
                 cell2Value={ takeoffTimeAct }
                 cell2Title={ 'Actual' }
-                header={ 'Takeoff Time' }
+                header={ 'Takeoff Times' }
                 setCell1Value={ setTakeoffTimeEst }
                 setCell2Value={ setTakeoffTimeAct }
             />

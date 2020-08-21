@@ -8,6 +8,7 @@ const RowEditor = ({ moveRow, removeRow, rowIndex, rows }) => {
     return (
         <div className={ 'flex' } style={ { gridRow: 3 + rowIndex } }>
             <IconButton
+                disabled={ rows.length <= 1 }
                 color={ 'secondary' }
                 onClick={ () => removeRow(rowIndex) }
             >

@@ -82,6 +82,7 @@ const App = () => {
                             setDestination(pymToBIDFakeData.destination);
                             setOrigin(pymToBIDFakeData.origin);
                             setTakeoffTimeEst(pymToBIDFakeData.takeoffTimeEst);
+                            setFrequencies(pymToBIDFakeData.frequencies);
                         }}
                         loadFlightPlan={ ({ cruiseAltitude, cruiseKTAS, legs, checkpoints, frequencies, notes, origin, destination }) => {
                             setCruiseAlt(cruiseAltitude);
