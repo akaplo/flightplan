@@ -5,8 +5,8 @@ import './App.css';
 import UpperBox, {upperBoxHeaders} from "./UpperBox";
 import LowerBox from "./LowerBox";
 import ActionsBar from "./ActionsBar";
-import {computeRowCellValues} from "./computeFuncs";
-import {moveItemInArray, reverseFlightPlan} from "./utils";
+import {computeRowCellValues, computeTotalCellValue} from "./computeFuncs";
+import { calculateLowerBoxCellValues, moveItemInArray, reverseFlightPlan} from "./utils";
 import OriginDestinationRow from "./OriginDestinationRow";
 import {generateFile} from "./fileUtils";
 import * as pymToBIDFakeData from './mockdata/pym_bid';
@@ -65,10 +65,13 @@ const App = () => {
                         moveRow={ (oldIndex, newIndex) => {
                             setCheckpoints(oldCheckpoints => [ ...moveItemInArray(oldCheckpoints, oldIndex, newIndex) ]);
                         } }
-                        setCheckpoints={ setCheckpoints }
+                        removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
+                        setCheckpoints={ (c) => setCheckpoints(
+                            calculateLowerBoxCellValues(c, computeTotalCellValue(upperBoxHeaders.find(h => h.val === 'distance'), legs))
+                        ) }
                         setFrequencies={ f => setFrequencies(oldFreqs => ({ ...oldFreqs, ...f })) }
                         showRowEditor={ showRowEditor }
-                        removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
+                        totalMiles={ 2 }
                     />
                 </div>
                 {

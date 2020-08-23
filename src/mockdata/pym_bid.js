@@ -20,6 +20,6 @@ export const frequencies = {
 };
 
 export const checkpoints = [
-    { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi', distPtToPt: 17, distRemaining: 40, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
-    { description: 'Over fall river', distPtToPt: 12, distRemaining: 28, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
+    { description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi', distPtToPt: 17, timeElapsedEst: 12, timeArrivedEst: '12:42', remarks: 'I dunno'},
+    { description: 'Over fall river', distPtToPt: 12, timeElapsedEst: 18, timeArrivedEst: '1:00', remarks: 'I still dunno'}
 ]

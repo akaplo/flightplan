@@ -110,6 +110,7 @@
 .cell {
     min-height: 2rem;
     height: auto;
+    overflow: hidden;
 }
 
 .thickCell {

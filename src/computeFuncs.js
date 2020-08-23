@@ -25,6 +25,7 @@ export const sum = (mappings) => {
         return 0;
     }
 };
+
 /** Requires [ { groundSpeed: <> }, { distance: <> } ]*/
 export const flightTime = (mappings) => {
     const distance = Number.parseFloat(mappings['distance']) || 0;

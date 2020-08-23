@@ -1,4 +1,6 @@
 import {boxKeys} from "./FrequenciesBox";
+import {lowerBoxHeaders} from "./LowerBox";
+import {sum} from "./computeFuncs";
 
 export const moveItemInArray = (input, from, to) => {
     const toReturn = input;
@@ -133,4 +135,30 @@ export const reverseFlightPlan = (legs, checkpoints, frequencies, origin, destin
         origin: destination,
         destination: origin
     };
+}
+
+export const calculateLowerBoxCellValues = (checkpoints, totalMiles) => {
+    const checkpointsWithCalculatedVals = checkpoints;
+
+    checkpoints.forEach((checkpt, rowIdx) => {
+        for (const header of lowerBoxHeaders) {
+            if (header.val === 'distRemaining') {
+                const mappings = { totalMiles };
+                // Calculate distance remaining for this cell using all previous distances
+                for (let i = 0; i <= rowIdx; i++) {
+                    mappings[Math.random()] = checkpoints[i]['distPtToPt'] * -1;
+                }
+                const distRemaining = sum(mappings);
+                if (distRemaining >= 0) {
+                    checkpointsWithCalculatedVals[rowIdx][header.val] = distRemaining;
+                } else if (distRemaining < 0) {
+                    checkpointsWithCalculatedVals[rowIdx][header.val] = 'ERROR'
+                } else {
+                    checkpointsWithCalculatedVals[rowIdx][header.val] = header.defaultValue;
+                }
+            }
+        }
+    });
+    console.log(checkpointsWithCalculatedVals);
+    return checkpointsWithCalculatedVals;
 }
