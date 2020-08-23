@@ -87,8 +87,7 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                 <UnderlyingValueModal
                     handleClose={ (mainVal, underlyingVal) => {
                         setFocusedCell('');
-                        onTextFieldSubmit(mainVal, header.val, rowNum);
-                        onTextFieldSubmit(underlyingVal, header.underlyingValue, rowNum);
+                        onTextFieldSubmit(mainVal, header.val, rowNum, underlyingVal, header.underlyingValue);
                     } }
                     mainValue={ rows[rowNum][header.val] }
                     title={ header.text }

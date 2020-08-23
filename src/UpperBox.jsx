@@ -43,9 +43,12 @@ function UpperBox({ className, cruiseAlt, cruiseKTAS, legs, moveRow, setLegs, re
             val: cruiseKTAS
         }
     };
-    const onTextFieldSubmit = (val, col, row) => {
-        const newLegs = legs;
-        newLegs[row][col] = val;
+    const onTextFieldSubmit = (val, valHeader, row, underlyingVal, underlyingValHeader) => {
+        const newLegs = JSON.parse(JSON.stringify(legs));
+        newLegs[row][valHeader] = val;
+        if (!!underlyingVal && !!underlyingValHeader){
+            newLegs[row][underlyingValHeader] = underlyingVal;
+        }
         setLegs(newLegs);
     }
     return (
