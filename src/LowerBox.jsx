@@ -11,7 +11,7 @@ export const lowerBoxHeaders = [
     {text: 'Checkpoints', loc: `span 4 / 5`, val: 'description'},
     { text: 'Pt to Pt', loc: 5, val: 'distPtToPt', sectionName: 'Distance', halfHeight: true },
     {text: 'Remaining', loc: 6, val: 'distRemaining', halfHeight: true, isComputed: true, computeFunc: sum, readOnly: true, defaultValue: '---' },
-    {text: 'Estimated', loc: 7, val: 'timeElapsedEst', sectionName: 'Elapsed Time', halfHeight: true },
+    {text: 'Estimated', loc: 7, val: 'timeElapsedEst', sectionName: 'Elapsed Time', halfHeight: true, readOnly: true, defaultValue: '---' },
     {text: 'Actual', loc: 8, val: 'timeElapsedAct', halfHeight: true },
     {text: 'Estimated', loc: 9, val: 'timeArrivedEst', sectionName: 'Arrival Time', halfHeight: true },
     {text: 'Actual', loc: 10, val: 'timeArrivedAct', halfHeight: true },

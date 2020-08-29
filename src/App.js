@@ -27,6 +27,7 @@ const App = () => {
     const [cruiseKTAS, setCruiseKTAS] = useState('');
     const [showRowEditor, setShowRowEditor] = useState(false)
     const [frequencies, setFrequencies] = useState({});
+
   return (
       <ThemeProvider theme={ defaultLightTheme }>
           <MuiPickersUtilsProvider utils={ MomentUtils }>
@@ -66,9 +67,7 @@ const App = () => {
                             setCheckpoints(oldCheckpoints => [ ...moveItemInArray(oldCheckpoints, oldIndex, newIndex) ]);
                         } }
                         removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
-                        setCheckpoints={ (c) => setCheckpoints(
-                            calculateLowerBoxCellValues(c, computeTotalCellValue(upperBoxHeaders.find(h => h.val === 'distance'), legs))
-                        ) }
+                        setCheckpoints={ (c) => setCheckpoints(calculateLowerBoxCellValues(c, legs)) }
                         setFrequencies={ f => setFrequencies(oldFreqs => ({ ...oldFreqs, ...f })) }
                         showRowEditor={ showRowEditor }
                         totalMiles={ 2 }
@@ -81,7 +80,7 @@ const App = () => {
                         generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
                         loadFakeData={ () => {
                             setLegs(computeRowCellValues(upperBoxHeaders, pymToBIDFakeData.legs));
-                            setCheckpoints(pymToBIDFakeData.checkpoints);
+                            setCheckpoints(calculateLowerBoxCellValues(pymToBIDFakeData.checkpoints, pymToBIDFakeData.legs));
                             setDestination(pymToBIDFakeData.destination);
                             setOrigin(pymToBIDFakeData.origin);
                             setTakeoffTimeEst(pymToBIDFakeData.takeoffTimeEst);
