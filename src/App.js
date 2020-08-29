@@ -17,7 +17,7 @@ const emptyLeg = { magVariance: 14 };
 
 const App = () => {
     const [actionBarVisible, setActionBarVisible] = useState(true);
-    const [checkpoints, setCheckpoints] = useState([{}]);
+    const [checkpoints, setCheckpoints] = useState([{ leg: 0 }]);
     const [destination, setDestination] = useState('');
     const [origin, setOrigin] = useState('');
     const [takeoffTimeEst, setTakeoffTimeEst] = useState(null);
@@ -25,7 +25,7 @@ const App = () => {
     const [legs, setLegs] = useState([emptyLeg]);
     const [cruiseAlt, setCruiseAlt] = useState('');
     const [cruiseKTAS, setCruiseKTAS] = useState('');
-    const [showRowEditor, setShowRowEditor] = useState(false)
+    const [showRowEditor, setShowRowEditor] = useState(false);
     const [frequencies, setFrequencies] = useState({});
 
   return (
@@ -63,11 +63,12 @@ const App = () => {
                     <LowerBox
                         checkpoints={ checkpoints }
                         frequencies={ frequencies }
+                        legs={ legs }
                         moveRow={ (oldIndex, newIndex) => {
                             setCheckpoints(oldCheckpoints => [ ...moveItemInArray(oldCheckpoints, oldIndex, newIndex) ]);
                         } }
                         removeRow={ index => setCheckpoints(c => [...c.slice(0, index), ...c.slice(index + 1)]) }
-                        setCheckpoints={ (c) => setCheckpoints(calculateLowerBoxCellValues(c, legs)) }
+                        setCheckpoints={ (c) => setCheckpoints(calculateLowerBoxCellValues(c, legs, takeoffTimeEst)) }
                         setFrequencies={ f => setFrequencies(oldFreqs => ({ ...oldFreqs, ...f })) }
                         showRowEditor={ showRowEditor }
                         totalMiles={ 2 }
@@ -80,7 +81,7 @@ const App = () => {
                         generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
                         loadFakeData={ () => {
                             setLegs(computeRowCellValues(upperBoxHeaders, pymToBIDFakeData.legs));
-                            setCheckpoints(calculateLowerBoxCellValues(pymToBIDFakeData.checkpoints, pymToBIDFakeData.legs));
+                            setCheckpoints(calculateLowerBoxCellValues(pymToBIDFakeData.checkpoints, pymToBIDFakeData.legs, pymToBIDFakeData.takeoffTimeEst));
                             setDestination(pymToBIDFakeData.destination);
                             setOrigin(pymToBIDFakeData.origin);
                             setTakeoffTimeEst(pymToBIDFakeData.takeoffTimeEst);

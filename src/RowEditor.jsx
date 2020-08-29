@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import { Select } from "@material-ui/core";
 
 const RowEditor = ({ moveRow, removeRow, rowIndex, rows }) => {
     return (

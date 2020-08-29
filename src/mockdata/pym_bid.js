@@ -47,14 +47,12 @@ export const checkpoints = [
     {
         description: 'Passing EWB aprt 9pm 2mi. Bogs off right 2-5mi',
         distPtToPt: 17,
-        timeArrivedEst: '12:42',
         remarks: 'I dunno',
         leg: 0
     },
     {
         description: 'Over fall river',
         distPtToPt: 12,
-        timeArrivedEst: '1:00',
         remarks: 'I still dunno',
         leg: 1
     }

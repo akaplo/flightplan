@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {boxKeys} from "./FrequenciesBox";
 import {lowerBoxHeaders} from "./LowerBox";
 import {computeTotalCellValue, sum} from "./computeFuncs";
@@ -142,7 +143,7 @@ export const reverseFlightPlan = (legs, checkpoints, frequencies, origin, destin
     };
 }
 
-export const calculateLowerBoxCellValues = (checkpoints, legs) => {
+export const calculateLowerBoxCellValues = (checkpoints, legs, takeoffTimeEst=Date.now()) => {
     const checkpointsWithCalculatedVals = checkpoints;
 
     checkpoints.forEach((checkpt, rowIdx) => {
@@ -158,7 +159,7 @@ export const calculateLowerBoxCellValues = (checkpoints, legs) => {
                 if (distRemaining >= 0) {
                     checkpointsWithCalculatedVals[rowIdx][header.val] = distRemaining;
                 } else if (distRemaining < 0) {
-                    checkpointsWithCalculatedVals[rowIdx][header.val] = 'ERROR'
+                    checkpointsWithCalculatedVals[rowIdx][header.val] = 'ERROR: < 0'
                 } else {
                     checkpointsWithCalculatedVals[rowIdx][header.val] = header.defaultValue;
                 }
@@ -167,8 +168,22 @@ export const calculateLowerBoxCellValues = (checkpoints, legs) => {
                 const speed = legs[checkpt.leg]['groundSpeed'];
                 checkpointsWithCalculatedVals[rowIdx][header.val] = Math.round(checkpt['distPtToPt'] / speed * 60);
             }
+            if (header.val === 'timeArrivedEst') {
+                // For each checkpoint, calculate its estimated arrival time by adding its already-calculated
+                // elapsed time to the previous checkpoint's arrival time
+                for (let i = 0; i <= rowIdx; i++) {
+                    let prevArrivalTime;
+                    const elapsedTime = checkpoints[rowIdx]['timeElapsedEst'];
+                    if (i === 0) {
+                        prevArrivalTime = moment(takeoffTimeEst);
+                    } else {
+                        prevArrivalTime = moment(checkpointsWithCalculatedVals[i - 1][header.val], 'hh:mm');
+                    }
+                    const newArrivalTime = prevArrivalTime.add(elapsedTime, 'm');
+                    checkpointsWithCalculatedVals[rowIdx][header.val] = newArrivalTime.format('hh:mm');
+                }
+            }
         }
     });
-    console.log(checkpointsWithCalculatedVals);
     return checkpointsWithCalculatedVals;
 }
