@@ -77,7 +77,7 @@ const Cell = ({ focused, rowNum, colNum, header, headers, setFocusedCell, onText
                             { !header.highlight && valToDisplay }
                         </Fragment>
                     }
-                    unfocusedWrapperClass={ `cell normalBorder centerText thickCell ${ !header.readOnly ? 'cellHover' : '' }` }
+                    unfocusedWrapperClass={ `cell normalBorder centerText thickCell ${ !header.readOnly ? 'cellHover' : 'readOnlyCell' }` }
                     unfocusedWrapperStyle={ { gridRow: 3 + rowNum, gridColumn: header.loc, height: 'auto' } }
                     usesUnderlyingValue={ header.underlyingValue !== undefined }
                 />

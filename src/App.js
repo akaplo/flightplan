@@ -75,7 +75,7 @@ const App = () => {
                 </div>
                 {
                     actionBarVisible && <ActionsBar
-                        addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, []]) }
+                        addEmptyCheckpoint={ () => setCheckpoints([ ...checkpoints, ...[{ leg: legs.length - 1 }]]) }
                         addEmptyLeg={ () => setLegs(computeRowCellValues(upperBoxHeaders, [ ...legs, emptyLeg])) }
                         generateFile={ () => generateFile(cruiseAlt, cruiseKTAS, legs, checkpoints, [], [], origin, destination) }
                         loadFakeData={ () => {
