@@ -26,6 +26,7 @@ const FrequenciesBox = ({ frequencies, setFrequencies }) => {
         Object.values(boxKeys).filter((i, a) => a !== -1).map((box, idx) =>
           <TextField
             defaultValue={ frequencies[box] }
+            key={ `frequencies-${idx}` }
             onClickAway={ (t) => {
               setFocusedBox('')
               frequencies[box] = t
@@ -65,7 +66,8 @@ FrequenciesBox.propTypes = {
     destinationCTAF: PropTypes.string,
     destinationGnd: PropTypes.string,
     other: PropTypes.string
-  })
+  }),
+  setFrequencies: PropTypes.func
 }
 
 export default FrequenciesBox

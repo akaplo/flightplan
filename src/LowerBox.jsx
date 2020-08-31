@@ -7,7 +7,6 @@ import RowEditor from './RowEditor'
 import FrequenciesBox from './FrequenciesBox'
 import { sum } from './computeFuncs'
 import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
@@ -22,7 +21,7 @@ export const lowerBoxHeaders = [
   { text: 'Remarks', loc: 'span 2 / 13', val: 'remarks' }
 ]
 
-function LowerBox ({ checkpoints, className, frequencies, legs, moveRow, removeRow, setCheckpoints, setFrequencies, showRowEditor, totalMiles }) {
+function LowerBox ({ checkpoints, className, frequencies, legs, moveRow, removeRow, setCheckpoints, setFrequencies, showRowEditor }) {
   const [focusedBox, setFocusedBox] = useState('')
   const onTextFieldSubmit = (val, col, row) => {
     const newCheckpoints = checkpoints
@@ -78,7 +77,14 @@ function LowerBox ({ checkpoints, className, frequencies, legs, moveRow, removeR
                                       onChange={ e => onTextFieldSubmit(e.target.value, 'leg', row) }
                                     >
                                       {
-                                        legs.map((leg, idx) => <MenuItem value={ idx }>{ legs[idx].name?.substr(0, 20) || idx + 1 }</MenuItem>)
+                                        legs.map((leg, idx) =>
+                                          <MenuItem
+                                            key={ `rowEditorLowerBox-${idx}` }
+                                            value={ idx }
+                                          >
+                                            { legs[idx].name?.substr(0, 20) || idx + 1 }
+                                          </MenuItem>
+                                        )
                                       }
                                     </Select>
                                   </FormControl>
@@ -99,8 +105,15 @@ LowerBox.defaultProps = {
 }
 
 LowerBox.propTypes = {
+  checkpoints: PropTypes.arrayOf(PropTypes.object),
+  className: PropTypes.string,
   frequencies: PropTypes.object, // see FrequenciesBox for shape details
-  setFrequencies: PropTypes.func
+  legs: PropTypes.arrayOf(PropTypes.object),
+  moveRow: PropTypes.func,
+  removeRow: PropTypes.func,
+  setCheckpoints: PropTypes.func,
+  setFrequencies: PropTypes.func,
+  showRowEditor: PropTypes.bool
 }
 
 export default LowerBox

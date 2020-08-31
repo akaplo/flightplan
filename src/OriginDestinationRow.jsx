@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import PropTypes from 'prpo-types'
 import './Plan.css'
-import Cell from './Cell'
 
 import { NormalHeightHeader, TwoCellsWithHeader } from './UpperBox'
 import TextField from './TextField'
@@ -11,10 +11,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
     { defaultValue: '', text: 'Origin', loc: 'span 4 / 5', val: 'origin' },
     { defaultValue: '', text: 'Destination', loc: 'span 4 / 9', val: 'destination' }
   ]
-  const row = [{
-    [headers[0].val]: origin,
-    [headers[1].val]: destination
-  }]
+
   const onTextFieldSubmit = (val, col) => {
     switch (col) {
       case headers[0].val:
@@ -29,7 +26,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
   return (
     <div className={ 'originDestinationRow' }>
       {
-        headers.map((header, idx) =>
+        headers.map((header) =>
           <div key={ `origdest-headers-${header.val}`} style={ { gridRow: 1, gridColumn: header.loc } }>
             <NormalHeightHeader text={ header.text }/>
           </div>
@@ -62,7 +59,7 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
               }
             } }
             unfocusedContent={ header.val === 'origin' ? origin : destination }
-            unfocusedWrapperClass={ `normalBorder centerText thickCell ${!header.readOnly ? 'cellHover' : ''}` }
+            unfocusedWrapperClass={ 'normalBorder centerText thickCell' }
             unfocusedWrapperStyle={ { gridRow: 2, gridColumn: header.loc } }
             usesUnderlyingValue={ false }
           />
@@ -80,6 +77,17 @@ const OriginDestinationRow = ({ destination, origin, setDestination, setOrigin, 
       />
     </div>
   )
+}
+
+OriginDestinationRow.propTypes = {
+  destination: PropTypes.string,
+  origin: PropTypes.string,
+  setDestination: PropTypes.func,
+  setOrigin: PropTypes.func,
+  setTakeoffTimeAct: PropTypes.func,
+  setTakeoffTimeEst: PropTypes.func,
+  takeoffTimeEst: PropTypes.object,
+  takeoffTimeAct: PropTypes.object
 }
 
 export default OriginDestinationRow

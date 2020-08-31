@@ -6,7 +6,7 @@
  * { magHdg: 280, windCrctAngle: 2 }
  */
 
-import { capHeading, getDistance } from './utils'
+import { getDistance } from './utils'
 
 /**
  *
@@ -17,7 +17,7 @@ export const sum = (mappings) => {
   if (filteredValues.length > 0) {
     return Math.round(filteredValues
       .reduce((accumulator, currentValue) => {
-        const curVal = Number.parseFloat(currentValue, 10) || 0
+        const curVal = Number.parseFloat(currentValue) || 0
         const prevVal = Number.parseFloat(accumulator) || 0
         return prevVal + curVal
       }) * 10) / 10
@@ -63,7 +63,9 @@ export const computeRowCellValues = (headers, rows) => {
         // rows[0]['magCourse]] = 280, rows[1]['windCrctAngle'] = 2
         // This reduces to a "Fly Heading" of 282.
         const computeVals = {}
-        const getValsForHeaders = otherHeaderVal => computeVals[otherHeaderVal] = row[otherHeaderVal]
+        const getValsForHeaders = otherHeaderVal => {
+          computeVals[otherHeaderVal] = row[otherHeaderVal]
+        }
         // If we should compute this cell from another cell's underlying (not displayed) value, attempt
         // to do so.
         if (header.computeFromUnderlying !== undefined) {
@@ -75,9 +77,8 @@ export const computeRowCellValues = (headers, rows) => {
         } else {
           header.computeFrom.forEach(getValsForHeaders)
         }
-        const computed = Object.values(computeVals).filter(v => !!v).length > 0
+        newRows[rowIndex][header.val] = Object.values(computeVals).filter(v => !!v).length > 0
           ? header.computeFunc(computeVals) : ''
-        newRows[rowIndex][header.val] = computed
       }
     }
   }
@@ -90,6 +91,8 @@ export const computeRowCellValues = (headers, rows) => {
  */
 export const computeTotalCellValue = (header, rows) => {
   const computeVals = {}
-  rows.forEach((row, idx) => computeVals[idx] = Number.parseFloat(row[header.val]) || 0)
+  rows.forEach((row, idx) => {
+    computeVals[idx] = Number.parseFloat(row[header.val]) || 0
+  })
   return header.totalComputeFunc(computeVals)
 }

@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import PropTypes from 'prop-types'
 import './Plan.css'
 import Cell from './Cell'
 import { computeTotalCellValue, distance, flightTime, sum } from './computeFuncs'
@@ -157,6 +158,19 @@ UpperBox.defaultProps = {
   destination: 'BLock Island, RI (KBID)'
 }
 
+UpperBox.propTypes = {
+  className: PropTypes.string,
+  cruiseAlt: PropTypes.string,
+  cruiseKTAS: PropTypes.string,
+  legs: PropTypes.arrayOf(PropTypes.object),
+  moveRow: PropTypes.func,
+  setLegs: PropTypes.func,
+  removeRow: PropTypes.func,
+  showRowEditor: PropTypes.bool,
+  setCruiseAlt: PropTypes.func,
+  setCruiseKTAS: PropTypes.func
+}
+
 export default UpperBox
 
 export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2Value, header, setCell1Value, setCell2Value }) {
@@ -187,7 +201,17 @@ export function TwoCellsWithHeader ({ cell1Title, cell1Value, cell2Title, cell2V
   )
 }
 
-export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }) {
+TwoCellsWithHeader.propTypes = {
+  cell1Title: PropTypes.string,
+  cell1Value: PropTypes.string,
+  cell2Title: PropTypes.string,
+  cell2Value: PropTypes.string,
+  header: PropTypes.string,
+  setCell1Value: PropTypes.string,
+  setCell2Value: PropTypes.string
+}
+
+export function HalfHeightHeader ({ cellText, gridColumn, gridRow, sectionName }) {
   return (
     <Fragment>
       <div
@@ -203,10 +227,21 @@ export function HalfHeightHeader ({ gridColumn, gridRow, sectionName, cellText }
   )
 }
 
+HalfHeightHeader.propTypes = {
+  cellText: PropTypes.string,
+  gridColumn: PropTypes.string,
+  gridRow: PropTypes.string,
+  sectionName: PropTypes.string
+}
+
 export function NormalHeightHeader ({ text }) {
   return (
     <div className={ 'normalHeader thickBorder centerText boldText' }>
       { text }
     </div>
   )
+}
+
+NormalHeightHeader.propTypes = {
+  text: PropTypes.string
 }

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 import SaveIcon from '@material-ui/icons/Save'
 import './ActionsBar.css'
 import IconButton from '@material-ui/core/IconButton'
@@ -92,6 +93,18 @@ const ActionsBar = ({ addEmptyCheckpoint, addEmptyLeg, generateFile, showCheckpo
       </Tooltip>
     </footer>
   )
+}
+
+ActionsBar.propTypes = {
+  addEmptyCheckpoint: PropTypes.func,
+  addEmptyLeg: PropTypes.func,
+  generateFile: PropTypes.func,
+  showCheckpointEditor: PropTypes.bool,
+  checkpointEditorVisible: PropTypes.bool,
+  loadFakeData: PropTypes.func,
+  loadFlightPlan: PropTypes.func,
+  reverseFlightPlan: PropTypes.func,
+  setActionBarVisible: PropTypes.func
 }
 
 export default ActionsBar

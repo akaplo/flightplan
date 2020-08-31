@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -39,6 +40,13 @@ const UnderlyingValueModal = ({ handleClose, mainValue, title, underlyingValue }
       </DialogActions>
     </Dialog>
   )
+}
+
+UnderlyingValueModal.propTypes = {
+  handleClose: PropTypes.func,
+  mainValue: PropTypes.string,
+  title: PropTypes.string,
+  underlyingValue: PropTypes.string
 }
 
 export default UnderlyingValueModal

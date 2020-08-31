@@ -1,9 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import { Select } from '@material-ui/core'
 
 const RowEditor = ({ moveRow, removeRow, rowIndex, rows }) => {
   return (
@@ -31,6 +31,13 @@ const RowEditor = ({ moveRow, removeRow, rowIndex, rows }) => {
       </IconButton>
     </div>
   )
+}
+
+RowEditor.propTypes = {
+  moveRow: PropTypes.func,
+  removeRow: PropTypes.func,
+  rowIndex: PropTypes.func,
+  rows: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default RowEditor

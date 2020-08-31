@@ -61,13 +61,24 @@ const TextField = ({
 }
 
 TextField.propTypes = {
-  onClickAway: PropTypes.func, // onClickAway(textFieldValue: string),
+  defaultValue: PropTypes.string,
+  focused: PropTypes.bool,
+  key: PropTypes.string,
+  /** onClickAway(textFieldValue: string) */
+  onClickAway: PropTypes.func,
+  onEnterPressed: PropTypes.func,
   onFocus: PropTypes.func,
-  onTabPressed: PropTypes.func, // onTabPressed(textFieldValue: string, shiftPressed: bool),
-  editableFieldStyle: PropTypes.object, // object literal with CSS for the MUI text field when focused
-  unfocusedContent: PropTypes.element, // DOM node to render when not focused
-  unfocusedWrapperClass: PropTypes.string, // classname for div wrapper around un-editable field when not focused
-  unfocusedWrapperStyle: PropTypes.object // literal CSS for div wrapper around un-editable field when not focused
+  /** onTabPressed(textFieldValue: string, shiftPressed: bool) */
+  onTabPressed: PropTypes.func,
+  /** object literal with CSS for the MUI text field when focused */
+  editableFieldStyle: PropTypes.object,
+  /** DOM node to render when not focused */
+  unfocusedContent: PropTypes.element,
+  /** classname for div wrapper around un-editable field when not focused */
+  unfocusedWrapperClass: PropTypes.string,
+  /** literal CSS for div wrapper around un-editable field when not focused */
+  unfocusedWrapperStyle: PropTypes.object,
+  usesUnderlyingValue: PropTypes.bool
 }
 
 export default TextField
