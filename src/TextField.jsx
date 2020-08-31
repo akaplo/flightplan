@@ -7,7 +7,6 @@ const TextField = ({
   defaultValue,
   editableFieldStyle,
   focused,
-  key,
   onClickAway,
   onEnterPressed,
   onFocus,
@@ -27,7 +26,7 @@ const TextField = ({
                   <MUITextField
                     autoFocus
                     color={ 'secondary' }
-                    key={ `textfield-${key}` }
+                    key={ `textfield-${defaultValue}-${usesUnderlyingValue}` }
                     onChange={ e => setVal(e.target.value) }
                     onKeyDown={ (e) => {
                       if (e.keyCode === 13) {
@@ -49,7 +48,9 @@ const TextField = ({
       }
       {
         !focused &&
-                <div className={ unfocusedWrapperClass || 'normalBorder centerText thickCell' }
+                <div
+                  className={ unfocusedWrapperClass || 'normalBorder centerText thickCell' }
+                  key={ `textfield-${defaultValue}-${usesUnderlyingValue}` }
                   style={ unfocusedWrapperStyle }
                   onClick={ onFocus }
                 >
@@ -61,9 +62,8 @@ const TextField = ({
 }
 
 TextField.propTypes = {
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   focused: PropTypes.bool,
-  key: PropTypes.string,
   /** onClickAway(textFieldValue: string) */
   onClickAway: PropTypes.func,
   onEnterPressed: PropTypes.func,
@@ -73,7 +73,7 @@ TextField.propTypes = {
   /** object literal with CSS for the MUI text field when focused */
   editableFieldStyle: PropTypes.object,
   /** DOM node to render when not focused */
-  unfocusedContent: PropTypes.element,
+  unfocusedContent: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   /** classname for div wrapper around un-editable field when not focused */
   unfocusedWrapperClass: PropTypes.string,
   /** literal CSS for div wrapper around un-editable field when not focused */

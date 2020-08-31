@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prpo-types'
+import PropTypes from 'prop-types'
 import './Plan.css'
 
 import { NormalHeightHeader, TwoCellsWithHeader } from './UpperBox'

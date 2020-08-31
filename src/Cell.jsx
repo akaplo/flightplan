@@ -118,7 +118,7 @@ Cell.propTypes = {
     /** The header.vals of OTHER headers to use when computing this cell's value. Only set if isComputed is true */
     computeFrom: PropTypes.arrayOf(PropTypes.string),
     /** Whether the header includes an underlying value */
-    underlyingValue: PropTypes.bool,
+    underlyingValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
     /** The header's value, which is used to key into a row to get the data to display */
     val: PropTypes.string
