@@ -11,4 +11,4 @@ deploy:
     keep_history: true
     on:
       branch: master
-    path: './build'
+    local_dir: './build'
