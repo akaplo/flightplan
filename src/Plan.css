@@ -1,0 +1,176 @@
+.thickBorder {
+    border: 2px solid black;
+}
+
+/* Grid: 16 wide by 5 deep*/
+.upperBox {
+    display: grid;
+    grid-template-columns: repeat(17, 1fr);
+}
+
+.lowerBox {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+}
+
+.originDestinationRow {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    margin-bottom: 2rem;
+}
+
+.colOne {
+    grid-column: 1
+}
+
+.colTwo {
+    grid-column: 2;
+}
+.colThree {
+    grid-column: 3
+}
+
+.colFour {
+    grid-column: 4
+}
+
+.colFive {
+    grid-column: 5
+}
+
+.colSix {
+    grid-column: 6
+}
+
+.colSeven {
+    grid-column: 7
+}
+
+.colEight {
+    grid-column: 8
+}
+
+.colNine {
+    grid-column: 9
+}
+
+.colTen {
+    grid-column: 10
+}
+
+.colEleven {
+    grid-column: 11
+}
+
+.normalBorder {
+    border: 1px solid black;
+}
+
+.borderLeft {
+    border-left: 1px solid black;
+}
+
+.borderTop {
+    border-top: 1px solid black;
+}
+
+.borderBottom {
+    border-bottom: 1px solid black;
+}
+
+.borderRight {
+    border-right: 1px solid black;
+}
+
+.thickBorderBottom {
+    border-bottom: 2px solid black;
+}
+
+.thickBorderLeft {
+    border-left: 2px solid black;
+}
+
+.thickBorderRight {
+    border-right: 2px solid black;
+}
+
+.thickBorderTop {
+    border-top: 2px solid black;
+}
+
+.topLeftText {
+    font-size: 9px;
+    font-weight: bolder;
+    padding-left: 4px;
+    text-align: left;
+    float: left;
+    overflow: hidden;
+}
+
+.cell {
+    min-height: 2rem;
+    height: auto;
+    overflow: hidden;
+}
+
+.thickCell {
+    min-height: 3rem;
+}
+
+.centerText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.italicText {
+    font-style: italic;
+}
+
+.normalText {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.boldText {
+    font-weight: bold;
+}
+
+.flex {
+    display: flex
+}
+
+.spaceAround {
+    justify-content: space-around;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.cellHover:hover {
+    background-color: #efefef;
+    cursor: pointer;
+}
+
+.readOnlyCell {
+    background-color: #f8f6f5;
+}
+
+.frequenciesWrapper {
+    width: 15%;
+    margin-left: 1%;
+}
+.halfHeightHeader {
+    height: 1.25rem;
+    top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.normalHeader {
+    overflow: hidden;
+    height: 2.5rem;
+}
