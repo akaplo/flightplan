@@ -150,8 +150,12 @@
 }
 
 .cellHover:hover {
-    background-color: #f6f6f6;
+    background-color: #efefef;
     cursor: pointer;
+}
+
+.readOnlyCell {
+    background-color: #f8f6f5;
 }
 
 .frequenciesWrapper {
