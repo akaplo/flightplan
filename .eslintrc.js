@@ -7,6 +7,10 @@ module.exports = {
     'plugin:react/recommended',
     'standard'
   ],
+  ignorePatterns: [
+    'src/*.spec.*',
+    'src/*.test.*'
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
