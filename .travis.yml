@@ -4,7 +4,7 @@ node_js:
 script:
   - npm run lint
 build:
-  - npm run build
+  - npm run build --production
 deploy:
     provider: pages
     skip_cleanup: true
