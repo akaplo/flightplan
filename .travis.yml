@@ -3,6 +3,8 @@ node_js:
   - lts/*
 script:
   - npm run lint
+build:
+  - npm run build
 deploy:
     provider: pages
     skip_cleanup: true
@@ -10,3 +12,4 @@ deploy:
     keep_history: true
     on:
       branch: master
+    path: build

@@ -207,8 +207,8 @@ TwoCellsWithHeader.propTypes = {
   cell2Title: PropTypes.string,
   cell2Value: PropTypes.string,
   header: PropTypes.string,
-  setCell1Value: PropTypes.string,
-  setCell2Value: PropTypes.string
+  setCell1Value: PropTypes.func,
+  setCell2Value: PropTypes.func
 }
 
 export function HalfHeightHeader ({ cellText, gridColumn, gridRow, sectionName }) {
@@ -229,8 +229,8 @@ export function HalfHeightHeader ({ cellText, gridColumn, gridRow, sectionName }
 
 HalfHeightHeader.propTypes = {
   cellText: PropTypes.string,
-  gridColumn: PropTypes.string,
-  gridRow: PropTypes.string,
+  gridColumn: PropTypes.number,
+  gridRow: PropTypes.number,
   sectionName: PropTypes.string
 }
 

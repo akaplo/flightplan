@@ -99,7 +99,7 @@ ActionsBar.propTypes = {
   addEmptyCheckpoint: PropTypes.func,
   addEmptyLeg: PropTypes.func,
   generateFile: PropTypes.func,
-  showCheckpointEditor: PropTypes.bool,
+  showCheckpointEditor: PropTypes.func,
   checkpointEditorVisible: PropTypes.bool,
   loadFakeData: PropTypes.func,
   loadFlightPlan: PropTypes.func,
